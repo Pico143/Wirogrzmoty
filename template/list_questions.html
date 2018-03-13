@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title> AskMate </title>
+</head>
+
+<body>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Submission time</th>
+        <th>Times viewed</th>
+        <th>User's score</th>
+        <th>Title</th>
+    </tr>
+        {% for question in questions %}
+        <tr>
+            {% for item in question %}
+            <td>{{ item }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+</table> 
+</body>
