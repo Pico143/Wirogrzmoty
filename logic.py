@@ -4,21 +4,23 @@ and they should call persistence layer functions.'''
 import persistence
 import util
 from operator import itemgetter
+from datetime import datetime
+
 
 def get_id(list_dict):
-        return len(list_dict)
+    return len(list_dict)
+
 
 def answer_dict(question_id, answer):
-    ['id','submisson_time','vote_number','question_id','message','image']
-    answer_dict={
-        'id':0,
-        'submisson_time': 0,
+    answer_dict = {
+        'id': 0,
+        'submisson_time': datetime.timestamp(),
         'vote_number': 0,
         'question_id': question_id,
-        'message' : answer,
-        'image' : ''        
+        'message': answer,
+        'image': ''
     }
-    answer_dict['id'] = get_id(persistence.list_of_dict_from_file('Answer.csv',util.ANS_FIELDS))
+    answer_dict['id'] = get_id(persistence.list_of_dict_from_file('Answer.csv', util.ANS_FIELDS))
 
     return answer_dict
 
