@@ -25,7 +25,7 @@ def new_question():
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_answer(question_id):
-    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=util.QUEST_FIELDS)
+    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
     return render_template('post_answer.html',questions=questions, question_id=question_id)
 
 
