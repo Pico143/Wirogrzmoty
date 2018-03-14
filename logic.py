@@ -1,6 +1,8 @@
-'''Connection layer between the routes and the CSV handling layer. 
-It should have functions which can be called from the routing layer, 
+'''Connection layer between the routes and the CSV handling layer.
+It should have functions which can be called from the routing layer,
 and they should call persistence layer functions.'''
+
+from operator import itemgetter
 
 def answer_dict(question_id, answer):
     ['id','submisson_time','vote_number','question_id','message','image']
@@ -12,5 +14,11 @@ def answer_dict(question_id, answer):
         'message' : answer,
         'image' : ''        
     }
-    
+
     return answer_dict
+
+
+
+
+def sort_list_of_dicts_by_time(dict_list):
+    return sorted(dict_list, key=itemgetter('submission_time'))

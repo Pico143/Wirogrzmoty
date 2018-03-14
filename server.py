@@ -12,8 +12,8 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def list_questions(questions=None):
-    # tu zaimportować questions funkcją z persistence
     questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
+    questions = logic.sort_list_of_dicts_by_time(questions)
     return render_template('list_questions.html', questions=questions)
 
 
@@ -34,6 +34,11 @@ def submit_answer(question_id):
     persistence.write_form_to_file('Answer.csv',util.ANS_FIELDS,dict)
     return redirect('/')
 
+
+
+@app.route('/question/<question_id>')
+def view_question(question_id=None):
+    return render_template('display_question.html', question_id=question_id)
 
 
 if __name__ == '__main__':

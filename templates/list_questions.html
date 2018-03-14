@@ -7,18 +7,22 @@
 <body>
 <table border='1'>
     <tr>
-        {% for field in questions %}
-            {% for key, value in field.items() %}
+        {% set headers = questions[0] %}
+            {% for key, value in headers.items()|sort %}
             <th> {{ key }} </th>
             {% endfor %}
-        {% endfor %}
     </tr>
         {% for field in questions %}
         <tr>
-            {% for key, value in field.items() %}
-            <td>{{ value }}</td>
+            {% for key, value in field.items()|sort %}
+            <td onclick="location.href='/question'">{{ value }}</td>
             {% endfor %}
         </tr>
         {% endfor %}
-</table> 
+</table>
+<div>
+    <form action ='/new-question' method='get' name="New question" id="New question" >
+    <input type="submit" value="Add a question">
+    </form>
+</div>
 </body>
