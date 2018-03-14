@@ -3,24 +3,27 @@ It should have functions which can be called from the routing layer,
 and they should call persistence layer functions.'''
 import persistence
 import util
+import os.path
 from operator import itemgetter
 from datetime import datetime
 
 
 def get_id(list_dict):
-    return len(list_dict)
+    if len(list_dict)>0:
+        return len(list_dict)-1
+    else:
+        return 0
 
 
 def answer_dict(question_id, answer):
     answer_dict = {
-        'id': 0,
-        'submisson_time': datetime.timestamp(),
+        'id': get_id(persistence.list_of_dict_from_file('Answer.csv', util.ANS_FIELDS)),
+        'submisson_time': os.path.getmtime('Answer.csv'),
         'vote_number': 0,
         'question_id': question_id,
         'message': answer,
         'image': ''
     }
-    answer_dict['id'] = get_id(persistence.list_of_dict_from_file('Answer.csv', util.ANS_FIELDS))
 
     return answer_dict
 
