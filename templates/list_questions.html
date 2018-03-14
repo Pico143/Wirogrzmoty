@@ -3,20 +3,18 @@
     <meta charset="utf-8">
     <title> AskMate </title>
 </head>
-
 <body>
 <table border='1'>
     <tr>
-        {% set headers = questions[0] %}
-            {% for key, value in headers.items()|sort %}
-            <th> {{ key }} </th>
-            {% endfor %}
+        <th>Question ID</th>>
+        <th>Question Title</th>
+        <th>Votes</th>
     </tr>
         {% for field in questions %}
         <tr>
-            {% for key, value in field.items()|sort %}
-            <td onclick="location.href='/question'">{{ value }}</td>
-            {% endfor %}
+            <td onclick="location.href='/question'">{{ field['id'] }}</td>
+            <td onclick="location.href='/question'">{{ field['title'] }}</td>
+            <td onclick="location.href='/question'">{{ field['vote_number'] }}</td>
         </tr>
         {% endfor %}
 </table>
