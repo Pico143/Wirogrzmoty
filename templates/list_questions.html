@@ -15,7 +15,7 @@
         {% for field in questions|sort(attribute='id') %}
         <tr>
             {% for key, value in field.items()|sort %}
-            <td>{{ value }}</td>
+            <td onclick="location.href='/question'">{{ value }}</td>
             {% endfor %}
         </tr>
         {% endfor %}

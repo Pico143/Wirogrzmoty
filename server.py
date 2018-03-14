@@ -12,7 +12,6 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def list_questions(questions=None):
-    # tu zaimportować questions funkcją z persistence
     questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
     return render_template('list_questions.html', questions=questions)
 
@@ -25,6 +24,11 @@ def new_question():
 @app.route('/question/<question_id>/new-answer)')
 def post_answer(question_id=None):
     return render_template('post_answer.html', question_id=question_id)
+
+
+@app.route('/question/<question_id>')
+def view_question(question_id=None):
+    return render_template('display_question.html', question_id=question_id)
 
 
 if __name__ == '__main__':
