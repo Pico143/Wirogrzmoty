@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title> AskMate </title>
+</head>
+
+<body>
+    <p>Question:{{questions[question_id]['title']}}</p>
+    <form method="post">
+            <label for="answer">Your answer:</label>
+            <br/>
+            <textarea id="answer" name="answer" rows="5" cols="80" minlength="10" ></textarea>
+            <br/>
+            <button type="submit">Submit Answer</button>
+
+    </form>
+</body>
