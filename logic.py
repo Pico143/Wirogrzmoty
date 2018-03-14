@@ -10,7 +10,7 @@ from datetime import datetime
 
 def get_id(list_dict):
     if len(list_dict)>0:
-        return len(list_dict)-1
+        return int(list_dict[-1]['id']) + 1
     else:
         return 0
 
