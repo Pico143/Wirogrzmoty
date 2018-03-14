@@ -10,9 +10,10 @@ app = Flask(__name__)
 
 
 @app.route('/')
-@app.route('/ list)
+@app.route('/list')
 def list_questions(questions=None):
     # tu zaimportować questions funkcją z persistence
+    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
     return render_template('list_questions.html', questions=questions)
 
 
