@@ -15,7 +15,7 @@ def list_of_dict_from_file(filename, fieldnames):
     try:
         with open(filename) as f:
             reader = csv.DictReader(f, fieldnames)
-            dics = [d for d in reader][1:]
+            dics = [d for d in reader]
             return dics
     except FileNotFoundError:
         with open(filename, "w") as f:
