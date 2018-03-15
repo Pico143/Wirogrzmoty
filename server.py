@@ -26,15 +26,14 @@ def new_question():
 @app.route('/question/<int:question_id>/new-answer')
 def write_answer(question_id):
     questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
-    return render_template('post_answer.html',questions=questions, question_id=question_id)
+    return render_template('post_answer.html', questions=questions, question_id=question_id)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST'])
 def submit_answer(question_id):
-    dict=logic.answer_dict(question_id, request.form['answer'])
-    persistence.write_form_to_file('Answer.csv',util.ANS_FIELDS,dict)
+    dict = logic.answer_dict(question_id, request.form['answer'])
+    persistence.write_form_to_file('Answer.csv', util.ANS_FIELDS, dict)
     return redirect('/question/<question_id>')
-
 
 
 @app.route('/question/<question_id>')
