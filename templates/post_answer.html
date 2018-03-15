@@ -5,12 +5,13 @@
 </head>
 
 <body>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='beauty.css') }}">
     <p>Question:{{questions[question_id]['title']}}</p>
     <form method="post">
-            <label for="answer">Your answer:</label>
+            <label for="answer" id="your_answer">Your answer:</label>
             <br/>
             <textarea id="answer" name="answer" rows="5" cols="80" minlength="10" ></textarea>
             <br/>
-            <button type="submit">Submit Answer</button>
+            <button type="submit", id="submit_add_answer">Submit Answer</button>
     </form>
 </body>

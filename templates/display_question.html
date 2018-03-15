@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='beauty.css') }}">
 <table border='1'>
     <tr>
         {% for item in labels|sort %}
@@ -46,7 +47,11 @@
 <div>
     {% set new_answer_link = '/question/' + question_id|string + '/new-answer' %}
     <form action = {{ new_answer_link }} method='get' name="New answer" id="New answer" >
-    <input type="submit" value="Add an answer">
+    <input type="submit" value="Add an answer", id="submit_1">
+    </form>
+    <p></p>
+    <br><form action ='/new-question' method='get' name="New question" id="New question" >
+    <input type="submit" value="Add a question" id="submit_1">
     </form>
 </div>
 </body>

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='beauty.css') }}">
 <table border='1'>
     <tr>
         <th>Question No.</th>>
@@ -27,7 +28,7 @@
 </table>
 <div>
     <br><form action ='/new-question' method='get' name="New question" id="New question" >
-    <input type="submit" value="Add a question">
+    <input type="submit" value="Add a question" id="submit_add_question">
     </form>
 </div>
 </body>

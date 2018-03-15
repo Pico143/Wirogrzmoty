@@ -5,17 +5,18 @@
     <title>Ask question</title>
 </head>
 <body>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='beauty.css') }}">
     <h2>Ask Your Question</h2>
     <p>
     </p>
     <form method="POST">
-    <label for="title">Your title</label><br>
+    <label for="title" id="your_title">Your title</label><br>
     <textarea rows="1" cols="50" name="title" id="title"></textarea><br>
-    <label for="message">Your question</label><br>
+    <label for="message" id="your_question">Your question</label><br>
     <textarea minlength="10" rows="10" cols="50" name="question" id="question" required></textarea>
     <p>
     </p>
-    <input type="submit" value="Submit Question">
+    <input type="submit" value="Submit Question" id="submit">
     </form>
 </body>
 </html>
