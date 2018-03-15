@@ -42,6 +42,10 @@ def submit_answer(question_id):
     persistence.write_form_to_file('Answer.csv', util.ANS_FIELDS, dict)
     return redirect('/question/<question_id>')
 
+@app.route('/delete/<int:question_id>')
+def delete_question(question_id=None):
+    persistence.del_row_in_file('Question.csv', util.QUEST_FIELDS, question_id)
+    return redirect('/')
 
 @app.route('/question/<question_id>')
 def view_question(question_id=None):

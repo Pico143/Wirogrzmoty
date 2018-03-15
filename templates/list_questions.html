@@ -2,6 +2,8 @@
 <head>
     <meta charset="utf-8">
     <title> AskMate </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 <table border='1'>
@@ -12,15 +14,17 @@
     </tr>
         {% for field in questions %}
         {% set link="/question/" + field['id']|string %}
+        {% set link2="/delete/" + field['id']|string %}
         <tr>
-            <td>{{ loop.index }}</td>
+            <td>{{ field['id'] }}</td>
             <td><a href={{ link }}>{{field['title'] }}</a></td>
             <td>{{field['vote_number'] }}</td>
+            <td><a href={{ link2 }}><span class="glyphicon glyphicon-trash"></span></a></td>
         </tr>
         {% endfor %}
 </table>
 <div>
-    <form action ='/new-question' method='get' name="New question" id="New question" >
+    <br><form action ='/new-question' method='get' name="New question" id="New question" >
     <input type="submit" value="Add a question">
     </form>
 </div>

@@ -29,7 +29,7 @@ def del_row_in_file(filename, fieldnames, row_number):
     del list_dict[row_number]
     with open(filename, 'w') as f:
         w = csv.DictWriter(f, fieldnames)
-        w.writeheader()
+        #w.writeheader()
         w.writerows(list_dict)
 
 
