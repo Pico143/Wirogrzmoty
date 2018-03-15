@@ -6,11 +6,13 @@
 </head>
 <body>
     <h2>Ask Your Question</h2>
-    <p>Question must be at least 10 char long!</p>
     <p>
     </p>
-    <form action="/list.php" method="get">
-    <textarea minlength="10" rows="10" cols="50"></textarea>
+    <form method="POST">
+    <label for="question">Your question</label><br>
+    <textarea minlength="10" rows="10" cols="50" name="question" id="question"></textarea><br>
+    <label for="message">Optional message</label><br>
+    <textarea rows="10" cols="50" name="message" id="message"></textarea>
     <p>
     </p>
     <input type="submit" value="Submit Question">
