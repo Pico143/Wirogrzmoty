@@ -40,8 +40,9 @@
     </table>
 {% endif %}
 <div>
-    <form action ='/new-answer' method='get' name="New answer" id="New answer" >
-    <input type="submit" value="Add a answer">
+    {% set new_answer_link = '/question/' + question_id|string + '/new-answer' %}
+    <form action = {{ new_answer_link }} method='get' name="New answer" id="New answer" >
+    <input type="submit" value="Add an answer">
     </form>
 </div>
 </body>

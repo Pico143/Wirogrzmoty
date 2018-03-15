@@ -42,10 +42,12 @@ def submit_answer(question_id):
     persistence.write_form_to_file('Answer.csv', util.ANS_FIELDS, dict)
     return redirect('/question/<question_id>')
 
+
 @app.route('/delete/<int:question_id>')
 def delete_question(question_id=None):
     persistence.del_row_in_file('Question.csv', util.QUEST_FIELDS, question_id)
     return redirect('/')
+
 
 @app.route('/question/<question_id>')
 def view_question(question_id=None):
@@ -57,6 +59,18 @@ def view_question(question_id=None):
     return render_template('display_question.html', question_id=question_id,
                            questions=questions, labels=labels,
                            questions_answer=questions_answer, labels_answer=labels_answer)
+
+
+@app.route('/question/<question_id>/vote-up')
+def vote_up(question_id=None):
+    logic.vote_up(question_id, 'Question.csv')
+    return redirect('/question/<question_id>')
+
+
+@app.route('/question/<question_id>/vote-down')
+def vote_down(question_id=None):
+    logic.vote_down(question_id, 'Question.csv')
+    return redirect('/question/<question_id>')
 
 
 if __name__ == '__main__':
