@@ -2,6 +2,8 @@
 <head>
     <meta charset="utf-8">
     <title> AskMate </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 <table border='1'>
@@ -38,8 +40,9 @@
     </table>
 {% endif %}
 <div>
-    <form action ='/new-answer' method='get' name="New answer" id="New answer" >
-    <input type="submit" value="Add a answer">
+    {% set new_answer_link = '/question/' + question_id|string + '/new-answer' %}
+    <form action = {{ new_answer_link }} method='get' name="New answer" id="New answer" >
+    <input type="submit" value="Add an answer">
     </form>
 </div>
 </body>

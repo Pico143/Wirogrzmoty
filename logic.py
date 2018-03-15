@@ -30,8 +30,8 @@ def answer_dict(question_id, answer):
 
 
 def question_dict(title, question):
-    ['id','submission_time','view_number','vote_number','title', 'message', 'image']
-    question_dict={
+    ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
+    question_dict = {
         'id': get_id(persistence.list_of_dict_from_file('Question.csv', util.QUEST_FIELDS)),
         'submission_time': os.path.getmtime('Question.csv'),
         'view_number': 0,
@@ -71,3 +71,21 @@ def stringToBase64(string):
 
 def base64ToString(b):
     return base64.b64decode(b).decode('utf-8')
+
+
+def vote_up(question_id, filename):
+    questions = persistence.list_of_dict_from_file(filename, None)
+    for question in questions:
+        if question['id'] == question_id:
+            question['vote_number'] = int(question['vote_number']) + 1
+            persistence.replace_row_in_file(filename, None, int(question_id), question)
+            break
+
+
+def vote_down(question_id, filename):
+    questions = persistence.list_of_dict_from_file(filename, fieldnames=None)
+    for question in questions:
+        if question['id'] == question_id:
+            question['vote_number'] = int(question['vote_number']) + 1
+            persistence.replace_row_in_file(filename, None, int(question_id), question)
+            break
