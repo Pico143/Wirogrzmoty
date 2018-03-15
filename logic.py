@@ -10,7 +10,7 @@ from datetime import datetime
 
 
 def get_id(list_dict):
-    if len(list_dict)>0:
+    if len(list_dict) > 0:
         return int(list_dict[-1]['id']) + 1
     else:
         return 0
@@ -19,7 +19,7 @@ def get_id(list_dict):
 def answer_dict(question_id, answer):
     answer_dict = {
         'id': get_id(persistence.list_of_dict_from_file('Answer.csv', util.ANS_FIELDS)),
-        'submisson_time': os.path.getmtime('Answer.csv'),
+        'submission_time': os.path.getmtime('Answer.csv'),
         'vote_number': 0,
         'question_id': question_id,
         'message': stringToBase64(answer),
@@ -28,7 +28,23 @@ def answer_dict(question_id, answer):
 
     return answer_dict
 
+def question_dict(question, message):
+    ['id','submisson_time','view_number','vote_number','title', 'message', 'image']
+    question_dict={
+        'id':0,
+        'submisson_time': 0,
+        'view_number': 0,
+        'vote_number': 0,
+        'title': question,
+        'message': message,
+        'image': ''
+    }
 
+<<<<<<< HEAD
+    return question_dict
+
+=======
+>>>>>>> 5f900ef7436bd17a747c6220c4216e3b04c6f3cb
 def sort_list_of_dicts_by_time(dict_list):
     return sorted(dict_list, key=itemgetter('submission_time'))
 
@@ -42,6 +58,7 @@ def get_list_of_headers(dict_list):
         key_list.append(key)
     return key_list
 
+<<<<<<< HEAD
 def get_answers_in_question(dict_list, id_question):
     answers_list=[]
     for item in dict_list:
@@ -50,9 +67,12 @@ def get_answers_in_question(dict_list, id_question):
     return answers_list
 
 
+=======
+>>>>>>> 703a5ffeb25baf0081f9763fd637b7e20dfab08f
 
 def stringToBase64(string):
     return base64.b64encode(string.encode('utf-8'))
+
 
 def base64ToString(b):
     return base64.b64decode(b).decode('utf-8')
