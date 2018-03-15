@@ -14,6 +14,7 @@ app = Flask(__name__)
 def list_questions():
     questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
     questions = logic.sort_list_of_dicts_by_time(questions)
+    print (questions)
     labels = logic.get_list_of_headers(questions)
     return render_template('list_questions.html', questions=questions, labels=labels)
 
@@ -24,7 +25,7 @@ def new_question():
 
 @app.route('/new-question', methods= ["POST"])
 def submit_question():
-    dict=logic.question_dict(request.form["question"], request.form["message"])
+    dict=logic.question_dict(request.form["title"], request.form["question"])
     persistence.write_form_to_file('Question.csv', util.QUEST_FIELDS, dict)
     return redirect('/list')
 

@@ -29,15 +29,15 @@ def answer_dict(question_id, answer):
     return answer_dict
 
 
-def question_dict(question, message):
+def question_dict(title, question):
     ['id','submisson_time','view_number','vote_number','title', 'message', 'image']
     question_dict={
         'id': get_id(persistence.list_of_dict_from_file('Question.csv', util.QUEST_FIELDS)),
         'submisson_time': os.path.getmtime('Question.csv'),
         'view_number': 0,
         'vote_number': 0,
-        'title': question,
-        'message': message,
+        'title': title,
+        'message': question,
         'image': ''
     }
     return question_dict
