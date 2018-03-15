@@ -45,7 +45,8 @@ def submit_answer(question_id):
 
 @app.route('/delete/<int:question_id>')
 def delete_question(question_id=None):
-    persistence.del_row_in_file('Question.csv', util.QUEST_FIELDS, question_id)
+    persistence.del_row_in_file('Question.csv', util.QUEST_FIELDS, question_id, "id")
+    persistence.del_row_in_file('Answer.csv', util.ANS_FIELDS, question_id, "question_id")
     return redirect('/')
 
 
