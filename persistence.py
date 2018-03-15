@@ -42,7 +42,6 @@ def replace_row_in_file(filename, fieldnames, row_number, dict):
     list_dict[row_number] = dict
     with open(filename, 'w') as f:
         w = csv.DictWriter(f, fieldnames)
-        w.writeheader()
         w.writerows(list_dict)
 
 

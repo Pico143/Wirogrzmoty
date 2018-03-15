@@ -74,7 +74,7 @@ def base64ToString(b):
 
 
 def vote_up(question_id, filename):
-    questions = persistence.list_of_dict_from_file(filename, None)
+    questions = persistence.list_of_dict_from_file(filename, fieldnames=util.QUEST_FIELDS)
     for question in questions:
         if question['id'] == question_id:
             question['vote_number'] = int(question['vote_number']) + 1
@@ -86,6 +86,6 @@ def vote_down(question_id, filename):
     questions = persistence.list_of_dict_from_file(filename, fieldnames=util.QUEST_FIELDS)
     for question in questions:
         if question['id'] == question_id:
-            question['vote_number'] = int(question['vote_number']) + 1
+            question['vote_number'] = int(question['vote_number']) - 1
             persistence.replace_row_in_file(filename, util.QUEST_FIELDS, int(question_id), question)
             break
