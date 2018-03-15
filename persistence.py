@@ -3,9 +3,11 @@ In this case, we use CSV files, but later on we'll change this to SQL database.
 So in the future, we only need to change in this layer.'''
 
 import csv
+import base64
 
 
 def write_form_to_file(filename, fieldnames, dict):
+    #encoding_dict(dict)
     with open(filename, 'a') as f:
         w = csv.DictWriter(f, fieldnames)
         w.writerow(dict)
@@ -40,3 +42,25 @@ def replace_row_in_file(filename, fieldnames, row_number, dict):
         w = csv.DictWriter(f, fieldnames)
         w.writeheader()
         w.writerows(list_dict)
+
+
+def decoding_dict(dict):
+    for i in dict:
+        if i in ['title', 'message', 'image']:
+            dict[i]=base64ToString(bytes(dict[i]))
+    return dict
+
+def encoding_dict(dict):
+    for i,j in dict.items():
+        if type(j) is str:
+            dict[i]=stringToBase64(j)
+    return dict
+
+
+
+def stringToBase64(string):
+    return base64.b64encode(string.encode('utf-8'))
+
+
+def base64ToString(b):
+    return base64.b64decode(b).decode('utf-8')
