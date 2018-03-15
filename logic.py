@@ -28,10 +28,11 @@ def answer_dict(question_id, answer):
 
     return answer_dict
 
+
 def question_dict(question, message):
-    ['id','submisson_time','view_number','vote_number','title', 'message', 'image']
-    question_dict={
-        'id':0,
+    ['id', 'submisson_time', 'view_number', 'vote_number', 'title', 'message', 'image']
+    question_dict = {
+        'id': 0,
         'submisson_time': 0,
         'view_number': 0,
         'vote_number': 0,
@@ -39,18 +40,15 @@ def question_dict(question, message):
         'message': message,
         'image': ''
     }
-
-<<<<<<< HEAD
     return question_dict
 
-=======
->>>>>>> 5f900ef7436bd17a747c6220c4216e3b04c6f3cb
+
 def sort_list_of_dicts_by_time(dict_list):
     return sorted(dict_list, key=itemgetter('submission_time'))
 
 
 def get_list_of_headers(dict_list):
-    if dict_list==[]:
+    if dict_list == []:
         return[]
     example_dict = dict_list[0]
     key_list = []
@@ -58,17 +56,14 @@ def get_list_of_headers(dict_list):
         key_list.append(key)
     return key_list
 
-<<<<<<< HEAD
+
 def get_answers_in_question(dict_list, id_question):
-    answers_list=[]
+    answers_list = []
     for item in dict_list:
         if int(item['question_id']) == int(id_question):
             answers_list.append(item)
     return answers_list
 
-
-=======
->>>>>>> 703a5ffeb25baf0081f9763fd637b7e20dfab08f
 
 def stringToBase64(string):
     return base64.b64encode(string.encode('utf-8'))
