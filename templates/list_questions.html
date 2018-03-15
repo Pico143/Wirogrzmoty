@@ -6,14 +6,14 @@
 <body>
 <table border='1'>
     <tr>
-        <th>Question ID</th>>
+        <th>Question No.</th>>
         <th>Question Title</th>
         <th>Votes</th>
     </tr>
         {% for field in questions %}
         {% set link="/question/" + field['id']|string %}
         <tr>
-            <td>{{ field['id'] }}</td>
+            <td>{{ loop.index }}</td>
             <td><a href={{ link }}>{{field['title'] }}</a></td>
             <td>{{field['vote_number'] }}</td>
         </tr>
