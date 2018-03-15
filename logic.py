@@ -34,11 +34,22 @@ def sort_list_of_dicts_by_time(dict_list):
 
 
 def get_list_of_headers(dict_list):
+    if dict_list==[]:
+        return[]
     example_dict = dict_list[0]
     key_list = []
     for key in example_dict.keys():
         key_list.append(key)
     return key_list
+
+def get_answers_in_question(dict_list, id_question):
+    answers_list=[]
+    for item in dict_list:
+        if int(item['question_id']) == int(id_question):
+            answers_list.append(item)
+    return answers_list
+
+
 
 def stringToBase64(string):
     return base64.b64encode(string.encode('utf-8'))

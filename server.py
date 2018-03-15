@@ -39,7 +39,12 @@ def submit_answer(question_id):
 
 @app.route('/question/<question_id>')
 def view_question(question_id=None):
-    return render_template('display_question.html', question_id=question_id)
+    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
+    questions_answer = persistence.list_of_dict_from_file('Answer.csv', fieldnames=None)
+    questions_answer = logic.get_answers_in_question(questions_answer,question_id)
+    labels = logic.get_list_of_headers(questions)
+    labels_answer = logic.get_list_of_headers(questions_answer)
+    return render_template('display_question.html', question_id=question_id, questions=questions, labels=labels, questions_answer=questions_answer, labels_answer=labels_answer)
 
 
 if __name__ == '__main__':
