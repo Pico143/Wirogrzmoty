@@ -19,7 +19,7 @@
         {% set vote_up='/question/' + field['id']|string + "/vote-up"%}
         {% set vote_down='/question/' + field['id']|string + "/vote-down"%}
         <tr>
-            <td>{{ field['id'] }}</td>
+            <td>{{ loop.index }}</td>
             <td><a href={{ link }}>{{field['title'] }}</a></td>
             <td>{{field['vote_number'] }}</td>
             <td><a href={{ link2 }}><span class="glyphicon glyphicon-trash"></span></a></td>
