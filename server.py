@@ -22,6 +22,11 @@ def list_questions():
 def new_question():
     return render_template('ask_question.html')
 
+@app.route('/new-question', methods= ["POST"])
+def submit_question():
+    dict=logic.question_dict(request.form["question"], request.form["message"])
+    persistence.write_form_to_file('Question.csv', util.QUEST_FIELDS, dict)
+    return redirect('/list')
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_answer(question_id):
