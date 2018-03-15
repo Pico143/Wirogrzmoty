@@ -22,7 +22,7 @@ def answer_dict(question_id, answer):
         'submission_time': os.path.getmtime('Answer.csv'),
         'vote_number': 0,
         'question_id': question_id,
-        'message': stringToBase64(answer),
+        'message': answer,
         'image': ''
     }
 
@@ -78,14 +78,14 @@ def vote_up(question_id, filename):
     for question in questions:
         if question['id'] == question_id:
             question['vote_number'] = int(question['vote_number']) + 1
-            persistence.replace_row_in_file(filename, None, int(question_id), question)
+            persistence.replace_row_in_file(filename, util.QUEST_FIELDS, int(question_id), question)
             break
 
 
 def vote_down(question_id, filename):
-    questions = persistence.list_of_dict_from_file(filename, fieldnames=None)
+    questions = persistence.list_of_dict_from_file(filename, fieldnames=util.QUEST_FIELDS)
     for question in questions:
         if question['id'] == question_id:
             question['vote_number'] = int(question['vote_number']) + 1
-            persistence.replace_row_in_file(filename, None, int(question_id), question)
+            persistence.replace_row_in_file(filename, util.QUEST_FIELDS, int(question_id), question)
             break
