@@ -10,7 +10,7 @@ from datetime import datetime
 
 
 def get_id(list_dict):
-    if len(list_dict)>0:
+    if len(list_dict) > 0:
         return int(list_dict[-1]['id']) + 1
     else:
         return 0
@@ -19,7 +19,7 @@ def get_id(list_dict):
 def answer_dict(question_id, answer):
     answer_dict = {
         'id': get_id(persistence.list_of_dict_from_file('Answer.csv', util.ANS_FIELDS)),
-        'submisson_time': os.path.getmtime('Answer.csv'),
+        'submission_time': os.path.getmtime('Answer.csv'),
         'vote_number': 0,
         'question_id': question_id,
         'message': stringToBase64(answer),
@@ -40,8 +40,10 @@ def get_list_of_headers(dict_list):
         key_list.append(key)
     return key_list
 
+
 def stringToBase64(string):
     return base64.b64encode(string.encode('utf-8'))
+
 
 def base64ToString(b):
     return base64.b64decode(b).decode('utf-8')

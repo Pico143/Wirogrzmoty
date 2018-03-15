@@ -33,7 +33,7 @@ def write_answer(question_id):
 def submit_answer(question_id):
     dict=logic.answer_dict(question_id, request.form['answer'])
     persistence.write_form_to_file('Answer.csv',util.ANS_FIELDS,dict)
-    return redirect('/')
+    return redirect('/question/<question_id>')
 
 
 
