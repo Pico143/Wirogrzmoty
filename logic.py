@@ -28,11 +28,12 @@ def answer_dict(question_id, answer):
 
     return answer_dict
 
+
 def question_dict(question, message):
     ['id','submisson_time','view_number','vote_number','title', 'message', 'image']
     question_dict={
-        'id':0,
-        'submisson_time': 0,
+        'id': get_id(persistence.list_of_dict_from_file('Question.csv', util.QUEST_FIELDS)),
+        'submisson_time': os.path.getmtime('Question.csv'),
         'view_number': 0,
         'vote_number': 0,
         'title': question,
@@ -41,12 +42,13 @@ def question_dict(question, message):
     }
     return question_dict
 
+
 def sort_list_of_dicts_by_time(dict_list):
     return sorted(dict_list, key=itemgetter('submission_time'))
 
 
 def get_list_of_headers(dict_list):
-    if dict_list==[]:
+    if dict_list == []:
         return[]
     example_dict = dict_list[0]
     key_list = []
@@ -56,13 +58,11 @@ def get_list_of_headers(dict_list):
 
 
 def get_answers_in_question(dict_list, id_question):
-    answers_list=[]
+    answers_list = []
     for item in dict_list:
         if int(item['question_id']) == int(id_question):
             answers_list.append(item)
     return answers_list
-
-
 
 
 def stringToBase64(string):
