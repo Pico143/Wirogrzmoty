@@ -24,7 +24,7 @@ def new_question():
 
 @app.route('/new-question', methods= ["POST"])
 def submit_question():
-    dict=logic.question_dict(request.form["question"], request.form["message"])
+    dict=logic.question_dict(request.form["title"], request.form["question"])
     persistence.write_form_to_file('Question.csv', util.QUEST_FIELDS, dict)
     return redirect('/list')
 
