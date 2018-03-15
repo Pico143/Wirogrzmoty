@@ -11,10 +11,11 @@
         <th>Votes</th>
     </tr>
         {% for field in questions %}
+        {% set link="/question/" + field['id']|string %}
         <tr>
-            <td onclick="location.href='/question'">{{ field['id'] }}</td>
-            <td onclick="location.href='/question'">{{ field['title'] }}</td>
-            <td onclick="location.href='/question'">{{ field['vote_number'] }}</td>
+            <td>{{ field['id'] }}</td>
+            <td><a href={{ link }}>{{field['title'] }}</a></td>
+            <td>{{field['vote_number'] }}</td>
         </tr>
         {% endfor %}
 </table>

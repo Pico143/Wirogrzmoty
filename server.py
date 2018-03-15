@@ -30,7 +30,7 @@ def submit_question():
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_answer(question_id):
-    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=util.QUEST_FIELDS)
+    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
     return render_template('post_answer.html',questions=questions, question_id=question_id)
 
 
@@ -38,7 +38,7 @@ def write_answer(question_id):
 def submit_answer(question_id):
     dict=logic.answer_dict(question_id, request.form['answer'])
     persistence.write_form_to_file('Answer.csv',util.ANS_FIELDS,dict)
-    return redirect('/')
+    return redirect('/question/<question_id>')
 
 
 
