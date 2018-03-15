@@ -39,12 +39,8 @@ def question_dict(question, message):
         'message': message,
         'image': ''
     }
-
-<<<<<<< HEAD
     return question_dict
 
-=======
->>>>>>> 5f900ef7436bd17a747c6220c4216e3b04c6f3cb
 def sort_list_of_dicts_by_time(dict_list):
     return sorted(dict_list, key=itemgetter('submission_time'))
 
@@ -58,7 +54,7 @@ def get_list_of_headers(dict_list):
         key_list.append(key)
     return key_list
 
-<<<<<<< HEAD
+
 def get_answers_in_question(dict_list, id_question):
     answers_list=[]
     for item in dict_list:
@@ -67,8 +63,7 @@ def get_answers_in_question(dict_list, id_question):
     return answers_list
 
 
-=======
->>>>>>> 703a5ffeb25baf0081f9763fd637b7e20dfab08f
+
 
 def stringToBase64(string):
     return base64.b64encode(string.encode('utf-8'))
