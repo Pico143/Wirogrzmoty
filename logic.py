@@ -31,8 +31,8 @@ def answer_dict(question_id, answer):
 def question_dict(question, message):
     ['id','submisson_time','view_number','vote_number','title', 'message', 'image']
     question_dict={
-        'id':0,
-        'submisson_time': 0,
+        'id': get_id(persistence.list_of_dict_from_file('Question.csv', util.QUEST_FIELDS)),
+        'submisson_time': os.path.getmtime('Question.csv'),
         'view_number': 0,
         'vote_number': 0,
         'title': question,
@@ -40,11 +40,8 @@ def question_dict(question, message):
         'image': ''
     }
 
-<<<<<<< HEAD
     return question_dict
 
-=======
->>>>>>> 5f900ef7436bd17a747c6220c4216e3b04c6f3cb
 def sort_list_of_dicts_by_time(dict_list):
     return sorted(dict_list, key=itemgetter('submission_time'))
 
