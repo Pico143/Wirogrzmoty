@@ -26,13 +26,15 @@ def list_of_dict_from_file(filename, fieldnames):
         return {}
 
 
-def del_row_in_file(filename, fieldnames, row_number):
+def del_row_in_file(filename, fieldnames, row_number, row_id):
     list_dict = list_of_dict_from_file(filename, fieldnames)
-    del list_dict[row_number]
+    new_list = []
+    for item in list_dict:
+        if not str(item[row_id]) == str(row_number):
+            new_list.append(item)
     with open(filename, 'w') as f:
         w = csv.DictWriter(f, fieldnames)
-        w.writeheader()
-        w.writerows(list_dict)
+        w.writerows(new_list)
 
 
 def replace_row_in_file(filename, fieldnames, row_number, dict):

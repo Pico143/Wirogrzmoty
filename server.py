@@ -12,9 +12,8 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def list_questions():
-    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
+    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=util.QUEST_FIELDS)
     questions = logic.sort_list_of_dicts_by_time(questions)
-    print (questions)
     labels = logic.get_list_of_headers(questions)
     return render_template('list_questions.html', questions=questions, labels=labels)
 
@@ -23,15 +22,17 @@ def list_questions():
 def new_question():
     return render_template('ask_question.html')
 
-@app.route('/new-question', methods= ["POST"])
+
+@app.route('/new-question', methods=["POST"])
 def submit_question():
-    dict=logic.question_dict(request.form["title"], request.form["question"])
+    dict = logic.question_dict(request.form["title"], request.form["question"])
     persistence.write_form_to_file('Question.csv', util.QUEST_FIELDS, dict)
     return redirect('/list')
 
+
 @app.route('/question/<int:question_id>/new-answer')
 def write_answer(question_id):
-    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
+    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=util.QUEST_FIELDS)
     return render_template('post_answer.html', questions=questions, question_id=question_id)
 
 
@@ -39,17 +40,38 @@ def write_answer(question_id):
 def submit_answer(question_id):
     dict = logic.answer_dict(question_id, request.form['answer'])
     persistence.write_form_to_file('Answer.csv', util.ANS_FIELDS, dict)
-    return redirect('/question/<question_id>')
+    return redirect('/question/' + str(question_id))
+
+
+@app.route('/delete/<int:question_id>')
+def delete_question(question_id=None):
+    persistence.del_row_in_file('Question.csv', util.QUEST_FIELDS, question_id, "id")
+    persistence.del_row_in_file('Answer.csv', util.ANS_FIELDS, question_id, "question_id")
+    return redirect('/')
 
 
 @app.route('/question/<question_id>')
 def view_question(question_id=None):
-    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=None)
-    questions_answer = persistence.list_of_dict_from_file('Answer.csv', fieldnames=None)
-    questions_answer = logic.get_answers_in_question(questions_answer,question_id)
+    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=util.QUEST_FIELDS)
+    questions_answer = persistence.list_of_dict_from_file('Answer.csv', fieldnames=util.ANS_FIELDS)
+    questions_answer = logic.get_answers_in_question(questions_answer, question_id)
     labels = logic.get_list_of_headers(questions)
     labels_answer = logic.get_list_of_headers(questions_answer)
-    return render_template('display_question.html', question_id=question_id, questions=questions, labels=labels, questions_answer=questions_answer, labels_answer=labels_answer)
+    return render_template('display_question.html', question_id=question_id,
+                           questions=questions, labels=labels,
+                           questions_answer=questions_answer, labels_answer=labels_answer)
+
+
+@app.route('/question/<question_id>/vote-up')
+def vote_up(question_id=None):
+    logic.vote_up(question_id, 'Question.csv')
+    return redirect('/question/' + str(question_id))
+
+
+@app.route('/question/<question_id>/vote-down')
+def vote_down(question_id=None):
+    logic.vote_down(question_id, 'Question.csv')
+    return redirect('/question/' + str(question_id))
 
 
 if __name__ == '__main__':
