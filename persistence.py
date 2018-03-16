@@ -7,7 +7,7 @@ import base64
 
 
 def write_form_to_file(filename, fieldnames, dict):
-    #encoding_dict(dict)
+    encoding_dict(dict)
     with open(filename, 'a') as f:
         w = csv.DictWriter(f, fieldnames)
         w.writerow(dict)
@@ -17,12 +17,11 @@ def list_of_dict_from_file(filename, fieldnames):
     try:
         with open(filename) as f:
             reader = csv.DictReader(f, fieldnames)
-            dics = [d for d in reader]
+            dics = [decoding_dict(d) for d in reader]
             return dics
     except FileNotFoundError:
         with open(filename, "w") as f:
             w = csv.DictWriter(f, fieldnames)
-            w.writeheader()
         return {}
 
 
@@ -39,7 +38,7 @@ def del_row_in_file(filename, fieldnames, row_number, row_id):
 
 def replace_row_in_file(filename, fieldnames, row_number, dict):
     list_dict = list_of_dict_from_file(filename, fieldnames)
-    list_dict[row_number] = dict
+    list_dict[row_number] = encoding_dict(dict)
     with open(filename, 'w') as f:
         w = csv.DictWriter(f, fieldnames)
         w.writerows(list_dict)
@@ -47,14 +46,18 @@ def replace_row_in_file(filename, fieldnames, row_number, dict):
 
 def decoding_dict(dict):
     for i in dict:
+        print (i)
+        print(dict[i])
         if i in ['title', 'message', 'image']:
-            dict[i]=base64ToString(bytes(dict[i]))
+           dict[i]=base64ToString(bytes(dict[i][2:-1], "utf-8"))
     return dict
 
 def encoding_dict(dict):
-    for i,j in dict.items():
-        if type(j) is str:
-            dict[i]=stringToBase64(j)
+    for i in dict:
+        print (i)
+        print(dict[i])
+        if i in ['title', 'message', 'image']:
+           dict[i]=stringToBase64(dict[i])
     return dict
 
 
