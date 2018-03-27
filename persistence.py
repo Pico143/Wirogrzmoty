@@ -24,11 +24,10 @@ def add_row_to_db(row, table, *args):
     ''' Adds a new value into a given table, provided that dictionary is in a proper form
     (which is to be done by logic.py functions)
     Row - python dictionary to be added
-    Table - String with a name of the table to add dictionary values to
-    '''
+    Table - String with a name of the table to add dictionary values to'''
     connection = open_database()
     cursor = connection.cursor()
-    query = "INSERT INTO {0} (".format(table)
+    query = ("INSERT INTO {0} ".format(table))
     query = list(query)
     columns = []
     for key in sorted(row.keys()):
@@ -112,7 +111,7 @@ def get_item_by_question_id(cursor, table, _id):
 @connection_handler
 def search(cursor, search):
     cursor.execute("""
-                    SELECT * FROM question WHERE title LIKE '%{0}%';
+                    SELECT * FROM question WHERE LOWER(title) LIKE LOWER('%{0}%');
                    """.format(search['search_questions']))
     answers = cursor.fetchall()
     return answers
