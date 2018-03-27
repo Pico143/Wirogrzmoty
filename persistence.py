@@ -47,32 +47,6 @@ def replace_row_in_file(filename, fieldnames, row_number, dict):
         w.writerows(list_dict)
 
 
-def decoding_dict(dict):
-    for i in dict:
-        print (i)
-        print(dict[i])
-        if i in ['title', 'message', 'image']:
-           dict[i]=base64ToString(bytes(dict[i][2:-1], "utf-8"))
-    return dict
-
-
-def encoding_dict(dict):
-    for i in dict:
-        print (i)
-        print(dict[i])
-        if i in ['title', 'message', 'image']:
-           dict[i]=stringToBase64(dict[i])
-    return dict
-
-
-def stringToBase64(string):
-    return base64.b64encode(string.encode('utf-8'))
-
-
-def base64ToString(b):
-    return base64.b64decode(b).decode('utf-8')
-
-
 def open_database():
     connection = None
     try:

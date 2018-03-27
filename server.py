@@ -51,8 +51,8 @@ def delete_question(question_id=None):
 
 @app.route('/question/<question_id>')
 def view_question(question_id=None):
-    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=util.QUEST_FIELDS)
-    questions_answer = persistence.list_of_dict_from_file('Answer.csv', fieldnames=util.ANS_FIELDS)
+    questions = persistence.get_all_questions()
+    questions_answer = persistence.get_all_answers()
     questions_answer = logic.get_answers_in_question(questions_answer, question_id)
     labels = logic.get_list_of_headers(questions)
     labels_answer = logic.get_list_of_headers(questions_answer)
