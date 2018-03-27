@@ -101,5 +101,4 @@ ENV/
 .mypy_cache/
 
 #env var
-.ini
-database.ini
+*.ini
