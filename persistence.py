@@ -6,6 +6,19 @@ import psycopg2
 import psycopg2.extras
 from config import config
 
+
+def connection_handler(function):
+    def wrapper(*args, **kwargs):
+        connection = open_database()
+        # we set the cursor_factory parameter to return with a RealDictCursor cursor (cursor which provide dictionaries)
+        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        ret_value = function(dict_cur, *args, **kwargs)
+        dict_cur.close()
+        connection.close()
+        return ret_value
+    return wrapper
+
+
 @connection_handler
 def add_row_to_db(row, table):
     ''' Adds a new value into a given table, provided that dictionary is in a proper form
@@ -57,18 +70,6 @@ def open_database():
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     return connection
-
-
-def connection_handler(function):
-    def wrapper(*args, **kwargs):
-        connection = open_database()
-        # we set the cursor_factory parameter to return with a RealDictCursor cursor (cursor which provide dictionaries)
-        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        ret_value = function(dict_cur, *args, **kwargs)
-        dict_cur.close()
-        connection.close()
-        return ret_value
-    return wrapper
 
 
 @connection_handler
