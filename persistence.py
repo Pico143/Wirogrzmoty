@@ -34,9 +34,14 @@ def add_row_to_db(row, table, *args):
         columns.append(str(key))
     columns = ','.join(columns)
     query.append(columns + ") VALUES (")
+    values = []
     for key in sorted(row.keys()):
-        query.append(str(row[key]) + ", ")
-    query.append(")")
+        if not key == 'submission_time':
+            values.append("\'" + str(row[key]) + "\'")
+        else:
+            values.append("\'" + str(row[key]) + "\'")
+    values = ','.join(values)
+    query.append(values + ")")
     query = ''.join(query)
     cursor.execute(query)
     connection.close()
