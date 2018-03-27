@@ -30,8 +30,10 @@
     <br><form action ='/new-question' method='get' name="New question" id="New question" >
     <input type="submit" value="Add a question" id="submit_add_question">
     </form>
-    <br><form action ='/search' method='get' name="search" id="search" >
-    Search questions: <input type="text"  id="search_questions">
+
+    <form action="/search" method="post">
+      <textarea id="search" name="search_questions" rows="1" cols="8"></textarea>
+      <button type="submit">Search!</button>
     </form>
 </div>
 </body>
