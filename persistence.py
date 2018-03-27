@@ -98,4 +98,25 @@ def delete_item(cursor, table, _id):
                    """.format(table, _id))
 
 
+@connection_handler
+def get_item_by_id(cursor, table, _id):
+    cursor.execute("""
+                    SELECT *
+                    FROM {0}
+                    WHERE id = {1};
+                   """.format(table, _id))
+    question = cursor.fetchall()
+    return question
+
+
+@connection_handler
+def get_item_by_question_id(cursor, table, _id):
+    cursor.execute("""
+                    SELECT *
+                    FROM {0}
+                    WHERE question_id = {1};
+                   """.format(table, _id))
+    question = cursor.fetchall()
+    return question
+
 
