@@ -19,24 +19,28 @@ def connection_handler(function):
     return wrapper
 
 
-@connection_handler
-def add_row_to_db(row, table):
+def add_row_to_db(row, table, *args):
     ''' Adds a new value into a given table, provided that dictionary is in a proper form
     (which is to be done by logic.py functions)
     Row - python dictionary to be added
     Table - String with a name of the table to add dictionary values to
     '''
-
+    connection = open_database()
+    cursor = connection.cursor()
     query = "INSERT INTO {0} (".format(table)
     query = list(query)
+    columns = []
     for key in sorted(row.keys()):
-        query.append(key + ", ")
-    query.append(") VALUES (")
+        columns.append(str(key))
+    columns = ','.join(columns)
+    query.append(columns + ") VALUES (")
     for key in sorted(row.keys()):
-        query.append(row[key] + ", ")
+        query.append(str(row[key]) + ", ")
     query.append(")")
-    ''.join(query)
+    query = ''.join(query)
     cursor.execute(query)
+    connection.close()
+
 
 
 @connection_handler
