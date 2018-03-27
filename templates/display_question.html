@@ -15,9 +15,9 @@
     </tr>
     <tr>
         {% set question_id = question_id|int %}
-        {% set q = questions[question_id] %}
-        {% set vote_up='/question/' + q['id']|string + "/vote-up"%}
-        {% set vote_down='/question/' + q['id']|string + "/vote-down"%}
+        {% set q = question[0] %}
+        {% set vote_up='/question/' + question_id|string + "/vote-up"%}
+        {% set vote_down='/question/' + question_id|string + "/vote-down"%}
         {% for key, value in q.items()|sort %}
             <td> {{ value }} </td>
         {% endfor %}
