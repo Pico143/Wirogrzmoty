@@ -86,8 +86,8 @@ def get_all_questions(cursor):
     cursor.execute("""
                     SELECT * FROM question;
                    """)
-    question = cursor.fetchall()
-    return question
+    questions = cursor.fetchall()
+    return questions
 
 
 @connection_handler

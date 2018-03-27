@@ -4,7 +4,6 @@ and they should call persistence layer functions.'''
 import persistence
 import util
 import os.path
-import base64
 from operator import itemgetter
 from datetime import datetime
 
@@ -18,8 +17,8 @@ def get_id(list_dict):
 
 def answer_dict(question_id, answer):
     answer_dict = {
-        'id': get_id(persistence.list_of_dict_from_file('Answer.csv', util.ANS_FIELDS)),
-        'submission_time': os.path.getmtime('Answer.csv'),
+        'id': get_id(persistence.get_all_questions()),
+        'submission_time': datetime.now(),
         'vote_number': 0,
         'question_id': question_id,
         'message': answer,
@@ -31,8 +30,8 @@ def answer_dict(question_id, answer):
 def question_dict(title, question):
     ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
     question_dict = {
-        'id': get_id(persistence.list_of_dict_from_file('Question.csv', util.QUEST_FIELDS)),
-        'submission_time': os.path.getmtime('Question.csv'),
+        'id': get_id(persistence.get_all_questions()),
+        'submission_time': datetime.now(),
         'view_number': 0,
         'vote_number': 0,
         'title': title,
