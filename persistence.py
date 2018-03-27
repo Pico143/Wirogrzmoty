@@ -2,30 +2,13 @@
 In this case, we use CSV files, but later on we'll change this to SQL database.
 So in the future, we only need to change in this layer.'''
 
-import csv
-import base64
 import psycopg2
 import psycopg2.extras
 from config import config
 
 
-def write_form_to_file(filename, fieldnames, dict):
-    encoding_dict(dict)
-    with open(filename, 'a') as f:
-        w = csv.DictWriter(f, fieldnames)
-        w.writerow(dict)
+def write_form_to_db(filename, fieldnames, dict):
 
-
-def list_of_dict_from_file(filename, fieldnames):
-    try:
-        with open(filename) as f:
-            reader = csv.DictReader(f, fieldnames)
-            dics = [decoding_dict(d) for d in reader]
-            return dics
-    except FileNotFoundError:
-        with open(filename, "w") as f:
-            w = csv.DictWriter(f, fieldnames)
-        return {}
 
 
 def del_row_in_file(filename, fieldnames, row_number, row_id):
