@@ -23,7 +23,6 @@ def answer_dict(question_id, answer):
         'vote_number': 0,
         'question_id': question_id,
         'message': answer,
-        'image': ''
     }
 
     return answer_dict
@@ -38,7 +37,6 @@ def question_dict(title, question):
         'vote_number': 0,
         'title': title,
         'message': question,
-        'image': ''
     }
     return question_dict
 
@@ -63,14 +61,6 @@ def get_answers_in_question(dict_list, id_question):
         if int(item['question_id']) == int(id_question):
             answers_list.append(item)
     return answers_list
-
-
-def stringToBase64(string):
-    return base64.b64encode(string.encode('utf-8'))
-
-
-def base64ToString(b):
-    return base64.b64decode(b).decode('utf-8')
 
 
 def vote_up(question_id, filename):
