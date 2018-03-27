@@ -124,3 +124,10 @@ def get_item_by_question_id(cursor, table, _id):
     return question
 
 
+@connection_handler
+def search(cursor, search):
+    cursor.execute("""
+                    SELECT * FROM question WHERE title LIKE '%{0}%';
+                   """.format(search['search_questions']))
+    answers = cursor.fetchall()
+    return answers

@@ -70,6 +70,19 @@ def vote_down(question_id=None):
     logic.vote_down(question_id, 'Question.csv')
     return redirect('/question/' + str(question_id))
 
+@app.route('/search', methods=["POST", "GET"])
+def search():
+    questions = persistence.search(search=request.form)
+    if questions:
+        questions = logic.sort_list_of_dicts_by_time(questions)
+        labels = logic.get_list_of_headers(questions)
+        return render_template('list_questions.html', questions=questions, labels=labels)
+    else:
+        return render_template('search_failed.html', term=request.form['search_questions'] )
+
+
+
+
 
 if __name__ == '__main__':
     app.secret_key = 'some_key'
