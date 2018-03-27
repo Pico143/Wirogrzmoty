@@ -16,6 +16,7 @@ def connection_handler(function):
         dict_cur.close()
         connection.close()
         return ret_value
+
     return wrapper
 
 
@@ -47,7 +48,6 @@ def add_row_to_db(row, table, *args):
     connection.close()
 
 
-
 @connection_handler
 def del_row_in_file(filename, fieldnames, row_number, row_id):
     list_dict = list_of_dict_from_file(filename, fieldnames)
@@ -58,6 +58,7 @@ def del_row_in_file(filename, fieldnames, row_number, row_id):
     with open(filename, 'w') as f:
         w = csv.DictWriter(f, fieldnames)
         w.writerows(new_list)
+
 
 @connection_handler
 def replace_row_in_file(filename, fieldnames, row_number, dict):

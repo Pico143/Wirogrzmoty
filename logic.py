@@ -46,7 +46,7 @@ def sort_list_of_dicts_by_time(dict_list):
 
 def get_list_of_headers(dict_list):
     if dict_list == []:
-        return[]
+        return []
     example_dict = dict_list[0]
     key_list = []
     for key in example_dict.keys():

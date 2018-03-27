@@ -26,7 +26,7 @@ def new_question():
 @app.route('/new-question', methods=["POST"])
 def submit_question():
     dict = logic.question_dict(request.form["title"], request.form["question"])
-    persistence.add_row_to_db(dict,"question")
+    persistence.add_row_to_db(dict, "question")
     return redirect('/list')
 
 
@@ -56,7 +56,7 @@ def view_question(question_id=None):
     labels = logic.get_list_of_headers(question)
     labels_answer = logic.get_list_of_headers(questions_answer)
     return render_template('display_question.html', question=question, questions_answer=questions_answer,
-                            labels=labels, question_id=question_id, labels_answer=labels_answer)
+                           labels=labels, question_id=question_id, labels_answer=labels_answer)
 
 
 @app.route('/question/<question_id>/vote-up')
@@ -70,6 +70,7 @@ def vote_down(question_id=None):
     logic.vote_down(question_id, 'Question.csv')
     return redirect('/question/' + str(question_id))
 
+
 @app.route('/search', methods=["POST", "GET"])
 def search():
     questions = persistence.search(search=request.form)
@@ -78,10 +79,7 @@ def search():
         labels = logic.get_list_of_headers(questions)
         return render_template('list_questions.html', questions=questions, labels=labels)
     else:
-        return render_template('search_failed.html', term=request.form['search_questions'] )
-
-
-
+        return render_template('search_failed.html', term=request.form['search_questions'])
 
 
 if __name__ == '__main__':
