@@ -6,11 +6,27 @@ import psycopg2
 import psycopg2.extras
 from config import config
 
+@connection_handler
+def add_row_to_db(row, table):
+    ''' Adds a new value into a given table, provided that dictionary is in a proper form
+    (which is to be done by logic.py functions)
+    Row - python dictionary to be added
+    Table - String with a name of the table to add dictionary values to
+    '''
 
-def write_form_to_db(filename, fieldnames, dict):
+    query = "INSERT INTO {0} (".format(table)
+    query = list(query)
+    for key in sorted(row.keys()):
+        query.append(key + ", ")
+    query.append(") VALUES (")
+    for key in sorted(row.keys()):
+        query.append(row[key] + ", ")
+    query.append(")")
+    ''.join(query)
+    cursor.execute(query)
 
 
-
+@connection_handler
 def del_row_in_file(filename, fieldnames, row_number, row_id):
     list_dict = list_of_dict_from_file(filename, fieldnames)
     new_list = []
@@ -21,7 +37,7 @@ def del_row_in_file(filename, fieldnames, row_number, row_id):
         w = csv.DictWriter(f, fieldnames)
         w.writerows(new_list)
 
-
+@connection_handler
 def replace_row_in_file(filename, fieldnames, row_number, dict):
     list_dict = list_of_dict_from_file(filename, fieldnames)
     list_dict[row_number] = encoding_dict(dict)
