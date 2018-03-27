@@ -115,3 +115,13 @@ def get_all_questions(cursor):
     question = cursor.fetchall()
     return question
 
+
+@connection_handler
+def delete_item(cursor, table, _id):
+    cursor.execute("""
+                    DELETE FROM {0}
+                    WHERE id = {1};
+                   """.format(table, _id))
+
+
+
