@@ -102,3 +102,4 @@ ENV/
 
 #env var
 *.ini
+database.ini
