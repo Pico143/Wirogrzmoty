@@ -4,6 +4,9 @@ So in the future, we only need to change in this layer.'''
 
 import csv
 import base64
+import psycopg2
+import psycopg2.extras
+from config import config
 
 
 def write_form_to_file(filename, fieldnames, dict):
@@ -52,6 +55,7 @@ def decoding_dict(dict):
            dict[i]=base64ToString(bytes(dict[i][2:-1], "utf-8"))
     return dict
 
+
 def encoding_dict(dict):
     for i in dict:
         print (i)
@@ -61,10 +65,53 @@ def encoding_dict(dict):
     return dict
 
 
-
 def stringToBase64(string):
     return base64.b64encode(string.encode('utf-8'))
 
 
 def base64ToString(b):
     return base64.b64decode(b).decode('utf-8')
+
+
+def open_database():
+    connection = None
+    try:
+        params = config()
+        print('Connecting to the PostgreSQL database...')
+        connection = psycopg2.connect(**params)
+        connection.autocommit = True
+
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    return connection
+
+
+def connection_handler(function):
+    def wrapper(*args, **kwargs):
+        connection = open_database()
+        # we set the cursor_factory parameter to return with a RealDictCursor cursor (cursor which provide dictionaries)
+        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        ret_value = function(dict_cur, *args, **kwargs)
+        dict_cur.close()
+        connection.close()
+        return ret_value
+    return wrapper
+
+
+@connection_handler
+def get_all_answers(cursor):
+    cursor.execute("""
+                    SELECT * FROM answer;
+                   """)
+    answers = cursor.fetchall()
+    return answers
+
+
+@connection_handler
+def get_all_questions(cursor):
+    cursor.execute("""
+                    SELECT * FROM question;
+                   """)
+    question = cursor.fetchall()
+    return question
+

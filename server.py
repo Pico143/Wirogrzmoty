@@ -12,7 +12,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def list_questions():
-    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=util.QUEST_FIELDS)
+    questions = persistence.get_all_questions()
     questions = logic.sort_list_of_dicts_by_time(questions)
     labels = logic.get_list_of_headers(questions)
     return render_template('list_questions.html', questions=questions, labels=labels)
