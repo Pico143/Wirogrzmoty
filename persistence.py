@@ -48,27 +48,6 @@ def add_row_to_db(row, table, *args):
     connection.close()
 
 
-@connection_handler
-def del_row_in_file(filename, fieldnames, row_number, row_id):
-    list_dict = list_of_dict_from_file(filename, fieldnames)
-    new_list = []
-    for item in list_dict:
-        if not str(item[row_id]) == str(row_number):
-            new_list.append(item)
-    with open(filename, 'w') as f:
-        w = csv.DictWriter(f, fieldnames)
-        w.writerows(new_list)
-
-
-@connection_handler
-def replace_row_in_file(filename, fieldnames, row_number, dict):
-    list_dict = list_of_dict_from_file(filename, fieldnames)
-    list_dict[row_number] = encoding_dict(dict)
-    with open(filename, 'w') as f:
-        w = csv.DictWriter(f, fieldnames)
-        w.writerows(list_dict)
-
-
 def open_database():
     connection = None
     try:
