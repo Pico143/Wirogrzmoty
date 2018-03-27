@@ -26,7 +26,7 @@ def new_question():
 @app.route('/new-question', methods=["POST"])
 def submit_question():
     dict = logic.question_dict(request.form["title"], request.form["question"])
-    persistence.write_form_to_file('Question.csv', util.QUEST_FIELDS, dict)
+    persistence.add_row_to_db(dict,"question")
     return redirect('/list')
 
 
@@ -45,21 +45,18 @@ def submit_answer(question_id):
 
 @app.route('/delete/<int:question_id>')
 def delete_question(question_id=None):
-    persistence.del_row_in_file('Question.csv', util.QUEST_FIELDS, question_id, "id")
-    persistence.del_row_in_file('Answer.csv', util.ANS_FIELDS, question_id, "question_id")
+    persistence.delete_item('question', question_id)
     return redirect('/')
 
 
 @app.route('/question/<question_id>')
 def view_question(question_id=None):
-    questions = persistence.get_all_questions()
-    questions_answer = persistence.get_all_answers()
-    questions_answer = logic.get_answers_in_question(questions_answer, question_id)
-    labels = logic.get_list_of_headers(questions)
+    question = persistence.get_item_by_id("question", question_id)
+    questions_answer = persistence.get_item_by_question_id('answer', question_id)
+    labels = logic.get_list_of_headers(question)
     labels_answer = logic.get_list_of_headers(questions_answer)
-    return render_template('display_question.html', question_id=question_id,
-                           questions=questions, labels=labels,
-                           questions_answer=questions_answer, labels_answer=labels_answer)
+    return render_template('display_question.html', question=question, questions_answer=questions_answer,
+                            labels=labels, question_id=question_id, labels_answer=labels_answer)
 
 
 @app.route('/question/<question_id>/vote-up')

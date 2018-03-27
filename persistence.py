@@ -2,32 +2,44 @@
 In this case, we use CSV files, but later on we'll change this to SQL database.
 So in the future, we only need to change in this layer.'''
 
-import csv
-import base64
 import psycopg2
 import psycopg2.extras
 from config import config
 
 
-def write_form_to_file(filename, fieldnames, dict):
-    encoding_dict(dict)
-    with open(filename, 'a') as f:
-        w = csv.DictWriter(f, fieldnames)
-        w.writerow(dict)
+def connection_handler(function):
+    def wrapper(*args, **kwargs):
+        connection = open_database()
+        # we set the cursor_factory parameter to return with a RealDictCursor cursor (cursor which provide dictionaries)
+        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        ret_value = function(dict_cur, *args, **kwargs)
+        dict_cur.close()
+        connection.close()
+        return ret_value
+    return wrapper
 
 
-def list_of_dict_from_file(filename, fieldnames):
-    try:
-        with open(filename) as f:
-            reader = csv.DictReader(f, fieldnames)
-            dics = [decoding_dict(d) for d in reader]
-            return dics
-    except FileNotFoundError:
-        with open(filename, "w") as f:
-            w = csv.DictWriter(f, fieldnames)
-        return {}
+@connection_handler
+def add_row_to_db(row, table):
+    ''' Adds a new value into a given table, provided that dictionary is in a proper form
+    (which is to be done by logic.py functions)
+    Row - python dictionary to be added
+    Table - String with a name of the table to add dictionary values to
+    '''
+
+    query = "INSERT INTO {0} (".format(table)
+    query = list(query)
+    for key in sorted(row.keys()):
+        query.append(key + ", ")
+    query.append(") VALUES (")
+    for key in sorted(row.keys()):
+        query.append(row[key] + ", ")
+    query.append(")")
+    ''.join(query)
+    cursor.execute(query)
 
 
+@connection_handler
 def del_row_in_file(filename, fieldnames, row_number, row_id):
     list_dict = list_of_dict_from_file(filename, fieldnames)
     new_list = []
@@ -38,39 +50,13 @@ def del_row_in_file(filename, fieldnames, row_number, row_id):
         w = csv.DictWriter(f, fieldnames)
         w.writerows(new_list)
 
-
+@connection_handler
 def replace_row_in_file(filename, fieldnames, row_number, dict):
     list_dict = list_of_dict_from_file(filename, fieldnames)
     list_dict[row_number] = encoding_dict(dict)
     with open(filename, 'w') as f:
         w = csv.DictWriter(f, fieldnames)
         w.writerows(list_dict)
-
-
-def decoding_dict(dict):
-    for i in dict:
-        print (i)
-        print(dict[i])
-        if i in ['title', 'message', 'image']:
-           dict[i]=base64ToString(bytes(dict[i][2:-1], "utf-8"))
-    return dict
-
-
-def encoding_dict(dict):
-    for i in dict:
-        print (i)
-        print(dict[i])
-        if i in ['title', 'message', 'image']:
-           dict[i]=stringToBase64(dict[i])
-    return dict
-
-
-def stringToBase64(string):
-    return base64.b64encode(string.encode('utf-8'))
-
-
-def base64ToString(b):
-    return base64.b64decode(b).decode('utf-8')
 
 
 def open_database():
@@ -84,18 +70,6 @@ def open_database():
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     return connection
-
-
-def connection_handler(function):
-    def wrapper(*args, **kwargs):
-        connection = open_database()
-        # we set the cursor_factory parameter to return with a RealDictCursor cursor (cursor which provide dictionaries)
-        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        ret_value = function(dict_cur, *args, **kwargs)
-        dict_cur.close()
-        connection.close()
-        return ret_value
-    return wrapper
 
 
 @connection_handler
@@ -112,6 +86,37 @@ def get_all_questions(cursor):
     cursor.execute("""
                     SELECT * FROM question;
                    """)
+    questions = cursor.fetchall()
+    return questions
+
+
+@connection_handler
+def delete_item(cursor, table, _id):
+    cursor.execute("""
+                    DELETE FROM {0}
+                    WHERE id = {1};
+                   """.format(table, _id))
+
+
+@connection_handler
+def get_item_by_id(cursor, table, _id):
+    cursor.execute("""
+                    SELECT *
+                    FROM {0}
+                    WHERE id = {1};
+                   """.format(table, _id))
     question = cursor.fetchall()
     return question
+
+
+@connection_handler
+def get_item_by_question_id(cursor, table, _id):
+    cursor.execute("""
+                    SELECT *
+                    FROM {0}
+                    WHERE question_id = {1};
+                   """.format(table, _id))
+    question = cursor.fetchall()
+    return question
+
 
