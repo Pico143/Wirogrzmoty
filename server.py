@@ -44,7 +44,7 @@ def submit_question():
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_answer(question_id):
-    questions = persistence.get_all_questions()
+    questions = persistence.get_all_items('question')
     return render_template('post_answer.html', questions=questions, question_id=question_id)
 
 
@@ -65,10 +65,19 @@ def delete_question(question_id=None):
 def view_question(question_id=None):
     question = persistence.get_item_by_id("question", question_id)
     questions_answer = persistence.get_item_by_question_id('answer', question_id)
+    question_comment = persistence.get_item_by_question_id('comment', question_id)
     labels = logic.get_list_of_headers(question)
     labels_answer = logic.get_list_of_headers(questions_answer)
-    return render_template('display_question.html', question=question, questions_answer=questions_answer,
-                           labels=labels, question_id=question_id, labels_answer=labels_answer)
+    labels_comment = logic.get_list_of_headers(question_comment)
+    print(question_comment)
+    return render_template('display_question.html',
+                           question=question,
+                           questions_answer=questions_answer,
+                           labels=labels,
+                           question_id=question_id,
+                           labels_answer=labels_answer,
+                           question_comment=question_comment,
+                           labels_comment=labels_comment)
 
 
 @app.route('/question/<int:question_id>/vote-up')
