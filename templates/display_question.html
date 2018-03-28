@@ -24,6 +24,23 @@
     </tr>
 </table>
 <br>
+{% if labels_comment == [] %}
+    <p>This question has no comments yet. Be the first Chap!</p>
+{% else %}
+    <table class="table">
+            <tr>
+                <th>Comments:</th>
+            </tr>
+                {% for comment in question_comment %}
+                    <tr>
+                        <td>
+                            {{ comment['message'] }}
+                        </td>
+                    </tr>
+                {% endfor %}
+    </table>
+{% endif %}
+<br>
 {% if labels_answer == [] %}
     <p>This question has no answers yet. Be the first Mate!</p>
 {% else %}
