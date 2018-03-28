@@ -91,7 +91,7 @@ def search():
         labels = logic.get_list_of_headers(questions)
         return render_template('list_questions.html', questions=questions, labels=labels, search=True)
     else:
-        return render_template('search_failed.html', term=request.form['search_questions'])
+        return render_template('search_failed.html', term=request.form['query'])
 
 
 if __name__ == '__main__':
