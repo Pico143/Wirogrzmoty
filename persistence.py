@@ -21,17 +21,13 @@ def connection_handler(function):
 
 
 @connection_handler
-
-
-
-def search(cursor, search):
+def search(cursor, query):
     cursor.execute("""
                     SELECT * FROM question
       LEFT JOIN answer ON question.id = answer.question_id
     WHERE LOWER(question.title) LIKE LOWER('%{0}%') OR LOWER(answer.message) LIKE LOWER('%{0}%');
-    """.format(search['search_questions']))
+    """.format(query['query']))
     matching_questions = cursor.fetchall()
-    print("MATCHING QUESTIONS: " , matching_questions)
     return matching_questions
 
 
@@ -64,10 +60,10 @@ def add_row_to_db(row, table):
     query.append(columns + ") VALUES (")
     values = []
     for key in sorted(row.keys()):
-        if not key == 'submission_time':
+        if not row[key] == 'null':
             values.append("\'" + str(row[key]) + "\'")
         else:
-            values.append("\'" + str(row[key]) + "\'")
+            values.append(str(row[key]))
     values = ','.join(values)
     query.append(values + ")")
     query = ''.join(query)
@@ -98,12 +94,12 @@ def get_all_answers(cursor):
 
 
 @connection_handler
-def get_all_questions(cursor):
+def get_all_items(cursor, table):
     cursor.execute("""
-                    SELECT * FROM question;
-                   """)
-    questions = cursor.fetchall()
-    return questions
+                    SELECT * FROM {0};
+                   """.format(table))
+    items = cursor.fetchall()
+    return items
 
 
 @connection_handler

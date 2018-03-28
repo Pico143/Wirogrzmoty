@@ -1,44 +1,40 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="utf-8">
-    <title> AskMate </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
-<body>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='beauty.css') }}">
-<table border='1'>
-    <tr>
-        <th>Question No.</th>>
-        <th>Question Title</th>
-        <th>Votes</th>
-    </tr>
-        {% for field in questions %}
-        {% set link="/question/" + field['id']|string %}
-        {% set link2="/delete/" + field['id']|string %}
-        {% set vote_up='/question/' + field['id']|string + "/vote-up"%}
-        {% set vote_down='/question/' + field['id']|string + "/vote-down"%}
-        <tr>
-            <td>{{ loop.index }}</td>
-            <td><a href={{ link }}>{{field['title'] }}</a></td>
-            <td>{{field['vote_number'] }}</td>
-            <td><a href={{ link2 }}><span class="glyphicon glyphicon-trash"></span></a></td>
-        </tr>
-        {% endfor %}
-</table>
-<div>
-    <br><form action ='/new-question' method='get' name="New question" id="New question" >
-    <input type="submit" value="Add a question" id="submit_add_question">
-    </form>
+{% extends 'base.html' %}
 
+{% block title %}ASK MATE{% endblock %}
+
+{% block page_content %}
+
+    <table class="table">
+        <tr>
+            <th>Question No.</th>>
+            <th>Question Title</th>
+            <th>Votes</th>
+        </tr>
+            {% for field in questions %}
+            {% set link="/question/" + field['id']|string %}
+            {% set link2="/delete/" + field['id']|string %}
+            {% set vote_up='/question/' + field['id']|string + "/vote-up"%}
+            {% set vote_down='/question/' + field['id']|string + "/vote-down"%}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href={{ link }}>{{field['title'] }}</a></td>
+                <td>{{field['vote_number'] }}</td>
+                <td><a href={{ link2 }}><span class="glyphicon glyphicon-trash"></span></a></td>
+            </tr>
+            {% endfor %}
+    </table>
+    <div>
+        <br><form action ='/new-question' method='get' name="New question" id="New question" >
+        <input type="submit" value="Add a question" id="submit_add_question">
+        </form>
+    </div>
+    {% if search == true %}
+        <form method="get" action="/">
+            <button type="submit">View all questions</button>
+        </form>
+    {% endif %}
     <form action="/search" method="post">
-      <input type="text" name="search_questions">
+      <input type="text" name="query">
       <button type="submit">Search!</button>
     </form>
-</div>
-{% if search == true %}
-    <form method="get" action="/">
-        <button type="submit">View all questions</button>
-    </form>
-{% endif %}
-</body>
+{% endblock %}
