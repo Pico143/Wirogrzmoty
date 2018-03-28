@@ -23,14 +23,9 @@
             </tr>
             {% endfor %}
     </table>
-    <div>git
+    <div>
         <br><form action ='/new-question' method='get' name="New question" id="New question" >
         <input type="submit" value="Add a question" id="submit_add_question">
-        </form>
-
-        <form action="/search" method="post">
-          <input type="text" name="search_questions">
-          <button type="submit">Search!</button>
         </form>
     </div>
     {% if search == true %}
@@ -42,10 +37,4 @@
       <input type="text" name="query">
       <button type="submit">Search!</button>
     </form>
-</div>
-{% if search == true %}
-    <form method="get" action="/">
-        <button type="submit">View all questions</button>
-    </form>
-{% endif %}
 {% endblock %}
