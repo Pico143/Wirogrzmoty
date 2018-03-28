@@ -20,20 +20,6 @@ def connection_handler(function):
     return wrapper
 
 
-@connection_handler
-
-
-
-def search(cursor, search):
-    cursor.execute("""
-                    SELECT * FROM question
-      LEFT JOIN answer ON question.id = answer.question_id
-    WHERE LOWER(question.title) LIKE LOWER('%{0}%') OR LOWER(answer.message) LIKE LOWER('%{0}%');
-    """.format(search['search_questions']))
-    matching_questions = cursor.fetchall()
-    print("MATCHING QUESTIONS: " , matching_questions)
-    return matching_questions
-
 def add_row_to_db(row, table, *args):
     ''' Adds a new value into a given table, provided that dictionary is in a proper form
     (which is to be done by logic.py functions)
@@ -120,3 +106,39 @@ def get_item_by_question_id(cursor, table, _id):
                    """.format(table, _id))
     question = cursor.fetchall()
     return question
+
+
+@connection_handler
+def search(cursor, search):
+    cursor.execute("""
+                    SELECT * FROM question WHERE LOWER(title) LIKE LOWER('%{0}%');
+                   """.format(search['search_questions']))
+    answers = cursor.fetchall()
+    return answers
+
+
+@connection_handler
+def update_question_vote(cursor, row):
+    """
+
+    :param cursor: psycopg2 cursor (provided by connection handler)
+    :param row: Dictionary with updated row
+    :return:
+    """
+    cursor.execute("""
+                    UPDATE question SET vote_number = {0} WHERE id = {1};
+                   """.format(row['vote_number'], row['id']))
+
+
+@connection_handler
+def update_answer_vote(cursor, row):
+    """
+
+    :param cursor: psycopg2 cursor (provided by connection handler)
+    :param row: Dictionary with updated row
+    :return:
+    """
+    cursor.execute("""
+                    UPDATE answer SET vote_number = {0} WHERE id = {1};
+                   """.format(row['vote_number'], row['id']))
+
