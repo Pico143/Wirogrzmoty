@@ -21,17 +21,13 @@ def connection_handler(function):
 
 
 @connection_handler
-
-
-
-def search(cursor, search):
+def search(cursor, query):
     cursor.execute("""
                     SELECT * FROM question
       LEFT JOIN answer ON question.id = answer.question_id
     WHERE LOWER(question.title) LIKE LOWER('%{0}%') OR LOWER(answer.message) LIKE LOWER('%{0}%');
-    """.format(search['search_questions']))
+    """.format(query['query']))
     matching_questions = cursor.fetchall()
-    print("MATCHING QUESTIONS: " , matching_questions)
     return matching_questions
 
 

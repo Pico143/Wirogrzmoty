@@ -85,7 +85,7 @@ def vote_answer_down(question_id=None, answer_id=None):
 
 @app.route('/search', methods=["POST", "GET"])
 def search():
-    questions = persistence.search(search=request.form)
+    questions = persistence.search(query=request.form)
     if questions:
         questions = logic.sort_list_of_dicts_by_time(questions)
         labels = logic.get_list_of_headers(questions)
