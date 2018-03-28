@@ -36,4 +36,9 @@
       <button type="submit">Search!</button>
     </form>
 </div>
+{% if search == true %}
+    <form method="get" action="/">
+        <button type="submit">View all questions</button>
+    </form>
+{% endif %}
 </body>
