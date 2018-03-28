@@ -44,7 +44,7 @@ def submit_question():
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_answer(question_id):
-    questions = persistence.get_all_questions()
+    questions = persistence.get_all_items("question")
     return render_template('post_answer.html', questions=questions, question_id=question_id)
 
 
