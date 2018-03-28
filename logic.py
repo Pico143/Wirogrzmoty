@@ -86,8 +86,8 @@ def vote_answer(answer_id, vote):
     for answer in answers:
         if int(answer['id']) == int(answer_id):
             if vote is True:
-                answers['vote_number'] = int(answers['vote_number']) + 1
+                answer['vote_number'] = int(answer['vote_number']) + 1
             elif vote is False:
-                answers['vote_number'] = int(answers['vote_number']) - 1
+                answer['vote_number'] = int(answer['vote_number']) - 1
             persistence.update_answer_vote(answer)
             break

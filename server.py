@@ -59,15 +59,27 @@ def view_question(question_id=None):
                            labels=labels, question_id=question_id, labels_answer=labels_answer)
 
 
-@app.route('/question/<question_id>/vote-up')
-def vote_up(question_id=None):
+@app.route('/question/<int:question_id>/vote-up')
+def vote_question_up(question_id=None):
     logic.vote_question(question_id, True)
     return redirect('/question/' + str(question_id))
 
 
-@app.route('/question/<question_id>/vote-down')
-def vote_down(question_id=None):
+@app.route('/question/<int:question_id>/vote-down')
+def vote_question_down(question_id=None):
     logic.vote_question(question_id, False)
+    return redirect('/question/' + str(question_id))
+
+
+@app.route('/question/<int:question_id>/<int:answer_id>/vote-up')
+def vote_answer_up(question_id=None, answer_id=None):
+    logic.vote_answer(answer_id, True)
+    return redirect('/question/' + str(question_id))
+
+
+@app.route('/question/<int:question_id>/<int:answer_id>/vote-down')
+def vote_answer_down(question_id=None, answer_id=None):
+    logic.vote_answer(answer_id, False)
     return redirect('/question/' + str(question_id))
 
 
