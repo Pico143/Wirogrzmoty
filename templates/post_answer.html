@@ -4,8 +4,8 @@
 {% block title %}ASK MATE{% endblock %}
 
 {% block page_content %}
-    <p>Question title: {{questions[question_id]['title']}}</p><br>
-    <p>Question:{{questions[question_id]['message']}}</p>
+    <p>Question title: {{ questions[0]['title'] }}</p><br>
+    <p>Question: {{ questions[0]['message'] }}</p>
     <form method="post">
             <label for="answer" id="your_answer">Your answer:</label>
             <br/>

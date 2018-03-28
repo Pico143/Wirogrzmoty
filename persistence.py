@@ -49,25 +49,6 @@ def add_row_to_db(row, table):
     for key in sorted(row.keys()):
         values.append(str(row[key]))
     cursor.execute(query, values)
-
-    '''
-    query = ("INSERT INTO {0} (".format(table))
-    query = list(query)
-    columns = []
-    for key in sorted(row.keys()):
-        columns.append(str(key))
-    columns = ','.join(columns)
-    query.append(columns + ") VALUES (")
-    values = []
-    for key in sorted(row.keys()):
-        if not row[key] == 'null':
-            values.append("\'" + str(row[key]) + "\'")
-        else:
-            values.append(str(row[key]))
-    values = ','.join(values)
-    query.append(values + ")")
-    query = ''.join(query)
-    '''
     connection.close()
 
 
@@ -116,7 +97,7 @@ def get_item_by_id(cursor, table, _id):
                     SELECT *
                     FROM {0}
                     WHERE id = {1};
-                   """.format(table, _id))
+                   """.format(table, int(_id)))
     question = cursor.fetchall()
     return question
 
