@@ -27,7 +27,7 @@ def add_row_to_db(row, table, *args):
     Table - String with a name of the table to add dictionary values to'''
     connection = open_database()
     cursor = connection.cursor()
-    query = ("INSERT INTO {0} ".format(table))
+    query = ("INSERT INTO {0} (".format(table))
     query = list(query)
     columns = []
     for key in sorted(row.keys()):

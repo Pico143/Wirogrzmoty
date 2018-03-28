@@ -62,8 +62,8 @@ def get_answers_in_question(dict_list, id_question):
     return answers_list
 
 
-def vote_up(question_id, filename):
-    questions = persistence.list_of_dict_from_file(filename, fieldnames=util.QUEST_FIELDS)
+def vote_question_up(question_id):
+    questions = persistence.get_all_questions
     for question in questions:
         if question['id'] == question_id:
             question['vote_number'] = int(question['vote_number']) + 1
@@ -71,7 +71,7 @@ def vote_up(question_id, filename):
             break
 
 
-def vote_down(question_id, filename):
+def vote_question_down(question_id, filename):
     questions = persistence.list_of_dict_from_file(filename, fieldnames=util.QUEST_FIELDS)
     for question in questions:
         if question['id'] == question_id:
