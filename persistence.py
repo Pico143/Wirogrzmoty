@@ -43,11 +43,15 @@ def add_row_to_db(row, table):
         query = "INSERT INTO question (id,message,submission_time,title,view_number,vote_number) VALUES (%s, %s, %s, %s, %s, %s)"
     elif table == "answer":
         query = "INSERT INTO answer (id,message,question_id,submission_time,vote_number) VALUES (%s, %s, %s, %s, %s)"
-    elif table == "comment":
+    elif table == "comment" and row['answer_id'] == 'null':
+        query = "INSERT INTO comment (answer_id,id,edited_count,message,question_id,submission_time) VALUES (null, %s, %s, %s, %s, %s)"
+        del row['answer_id']
+    else:
         query = "INSERT INTO comment (answer_id,id,edited_count,message,question_id,submission_time) VALUES (%s, %s, %s, %s, %s, %s)"
     values = []
     for key in sorted(row.keys()):
         values.append(str(row[key]))
+
     cursor.execute(query, values)
     connection.close()
 
