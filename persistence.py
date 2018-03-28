@@ -36,10 +36,10 @@ def add_row_to_db(row, table, *args):
     query.append(columns + ") VALUES (")
     values = []
     for key in sorted(row.keys()):
-        if not key == 'submission_time':
+        if not row[key] == 'null':
             values.append("\'" + str(row[key]) + "\'")
         else:
-            values.append("\'" + str(row[key]) + "\'")
+            values.append(str(row[key]))
     values = ','.join(values)
     query.append(values + ")")
     query = ''.join(query)
@@ -91,12 +91,12 @@ def get_all_answers(cursor):
 
 
 @connection_handler
-def get_all_questions(cursor):
+def get_all_items(cursor, table):
     cursor.execute("""
-                    SELECT * FROM question;
-                   """)
-    questions = cursor.fetchall()
-    return questions
+                    SELECT * FROM {0};
+                   """.format(table))
+    items = cursor.fetchall()
+    return items
 
 
 @connection_handler

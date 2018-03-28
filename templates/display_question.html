@@ -47,11 +47,18 @@
 <div>
     {% set new_answer_link = '/question/' + question_id|string + '/new-answer' %}
     <form action = {{ new_answer_link }} method='get' name="New answer" id="New answer" >
-    <input type="submit" value="Add an answer", id="submit_1">
+        <input type="submit" value="Add an answer", id="submit_1">
     </form>
     <p></p>
-    <br><form action ='/' method='get' name="Back to main page" id="Back to main page" >
-    <input type="submit" value="Back to main page" id="submit_1">
+    <br>
+    {% set new_comment_link = '/question/' + question_id|string + '/new-comment' %}
+    <form action = {{ new_comment_link }} method='get' name="New comment" id="New comment" >
+        <input type="submit" value="Add comment", id="submit_1">
+    </form>
+    <p></p>
+    <br>
+    <form action ='/' method='get' name="Back to main page" id="Back to main page" >
+        <input type="submit" value="Back to main page" id="submit_1">
     </form>
 </div>
 </body>

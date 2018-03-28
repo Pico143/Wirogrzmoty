@@ -17,7 +17,7 @@ def get_id(list_dict):
 
 def answer_dict(question_id, answer):
     answer_dict = {
-        'id': get_id(persistence.get_all_questions()),
+        'id': get_id(persistence.get_all_items()),
         'submission_time': str(datetime.now()),
         'vote_number': 0,
         'question_id': question_id,
@@ -30,7 +30,7 @@ def answer_dict(question_id, answer):
 def question_dict(title, question):
     ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
     question_dict = {
-        'id': get_id(persistence.get_all_questions()),
+        'id': get_id(persistence.get_all_items('question')),
         'submission_time': str(datetime.now()),
         'view_number': 0,
         'vote_number': 0,
@@ -38,6 +38,19 @@ def question_dict(title, question):
         'message': question,
     }
     return question_dict
+
+
+def comment_dict(comment, question_id='null', answer_id='null'):
+    ['id', 'question_id', "answer_id", 'message', 'submission_time', 'count']
+    comment_dict = {
+        'id': get_id(persistence.get_all_items('comment')),
+        'question_id': question_id,
+        'answer_id': answer_id,
+        'submission_time': str(datetime.now()),
+        'message': comment,
+        'edited_count': 0,
+    }
+    return comment_dict
 
 
 def sort_list_of_dicts_by_time(dict_list):
