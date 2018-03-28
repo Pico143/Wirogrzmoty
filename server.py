@@ -14,7 +14,7 @@ bootstrap = Bootstrap(app)
 @app.route('/')
 @app.route('/list')
 def list_questions():
-    questions = persistence.get_all_questions()
+    questions = persistence.get_all_items('question')
     questions = logic.sort_list_of_dicts_by_time(questions)
     labels = logic.get_list_of_headers(questions)
     return render_template('list_questions.html', questions=questions, labels=labels, search=False)
@@ -23,6 +23,16 @@ def list_questions():
 @app.route('/new-question')
 def new_question():
     return render_template('ask_question.html')
+
+
+@app.route('/question/<int:question_id>/new-comment', methods=["GET", "POST"])
+def new_comment(question_id):
+    if request.method == "GET":
+        return render_template('add_comment.html')
+    if request.method == "POST":
+        dict = logic.comment_dict(request.form["comment"], question_id=question_id)
+        persistence.add_row_to_db(dict, "comment")
+        return redirect('/question/' + str(question_id))
 
 
 @app.route('/new-question', methods=["POST"])
