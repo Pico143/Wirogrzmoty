@@ -115,3 +115,30 @@ def search(cursor, search):
                    """.format(search['search_questions']))
     answers = cursor.fetchall()
     return answers
+
+
+@connection_handler
+def update_question_vote(cursor, row):
+    """
+
+    :param cursor: psycopg2 cursor (provided by connection handler)
+    :param row: Dictionary with updated row
+    :return:
+    """
+    cursor.execute("""
+                    UPDATE question SET vote_number = {0} WHERE id = {1};
+                   """.format(row['vote_number'], row['id']))
+
+
+@connection_handler
+def update_answer_vote(cursor, row):
+    """
+
+    :param cursor: psycopg2 cursor (provided by connection handler)
+    :param row: Dictionary with updated row
+    :return:
+    """
+    cursor.execute("""
+                    UPDATE answer SET vote_number = {0} WHERE id = {1};
+                   """.format(row['vote_number'], row['id']))
+

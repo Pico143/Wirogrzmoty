@@ -61,13 +61,13 @@ def view_question(question_id=None):
 
 @app.route('/question/<question_id>/vote-up')
 def vote_up(question_id=None):
-    logic.vote_up(question_id, 'Question.csv')
+    logic.vote_question(question_id, True)
     return redirect('/question/' + str(question_id))
 
 
 @app.route('/question/<question_id>/vote-down')
 def vote_down(question_id=None):
-    logic.vote_down(question_id, 'Question.csv')
+    logic.vote_question(question_id, False)
     return redirect('/question/' + str(question_id))
 
 
