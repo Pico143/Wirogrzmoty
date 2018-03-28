@@ -33,8 +33,8 @@ def search(cursor, query):
 
 
 def add_row_to_db(row, table):
-    ''' Adds a new row into a given table, provided that dictionary is in a proper form
-    (which is to be done by logic.py functions)
+    ''' Adds a new row into a given table, provided that dictionary is in a form adjusted to the table
+    it's supposed to go to (which is to be done by logic.py functions)
     Row - python dictionary to be added
     Table - String with a name of the table to add dictionary values to'''
     connection = open_database()
@@ -44,7 +44,7 @@ def add_row_to_db(row, table):
     elif table == "answer":
         query = "INSERT INTO answer (id,message,question_id,submission_time,vote_number) VALUES (%s, %s, %s, %s, %s)"
     elif table == "comment" and row['answer_id'] == 'null':
-        query = "INSERT INTO comment (answer_id,id,edited_count,message,question_id,submission_time) VALUES (null, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO comment (answer_id,edited_count,id,message,question_id,submission_time) VALUES (null, %s, %s, %s, %s, %s)"
         del row['answer_id']
     else:
         query = "INSERT INTO comment (answer_id,id,edited_count,message,question_id,submission_time) VALUES (%s, %s, %s, %s, %s, %s)"
