@@ -42,9 +42,9 @@ def add_row_to_db(row, table):
     if table == "question":
         query = "INSERT INTO question (id,message,submission_time,title,view_number,vote_number) VALUES (%s, %s, %s, %s, %s, %s)"
     elif table == "answer":
-        query = "INSERT INTO answer (id,message,question_id,submission_time,vote_number) VALUES (%s)"
+        query = "INSERT INTO answer (id,message,question_id,submission_time,vote_number) VALUES (%s, %s, %s, %s, %s)"
     elif table == "comment":
-        query = "INSERT INTO comment (answer_id,id,edited_count,message,question_id,submission_time) VALUES (%s)"
+        query = "INSERT INTO comment (answer_id,id,edited_count,message,question_id,submission_time) VALUES (%s, %s, %s, %s, %s, %s)"
     values = []
     for key in sorted(row.keys()):
         values.append(str(row[key]))
