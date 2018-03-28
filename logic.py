@@ -9,15 +9,16 @@ from datetime import datetime
 
 
 def get_id(list_dict):
-    if len(list_dict) > 0:
-        return int(list_dict[-1]['id']) + 1
-    else:
-        return 0
+    highest = 0
+    for row in list_dict:
+        if int(row['id']) > highest:
+            highest = int(row['id'])
+    return highest + 1
 
 
 def answer_dict(question_id, answer):
     answer_dict = {
-        'id': get_id(persistence.get_all_questions()),
+        'id': get_id(persistence.get_all_answers()),
         'submission_time': str(datetime.now()),
         'vote_number': 0,
         'question_id': question_id,
