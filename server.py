@@ -95,13 +95,13 @@ def vote_answer_down(question_id=None, answer_id=None):
 
 @app.route('/search', methods=["POST", "GET"])
 def search():
-    questions = persistence.search(search=request.form)
+    questions = persistence.search(query=request.form)
     if questions:
         questions = logic.sort_list_of_dicts_by_time(questions)
         labels = logic.get_list_of_headers(questions)
         return render_template('list_questions.html', questions=questions, labels=labels, search=True)
     else:
-        return render_template('search_failed.html', term=request.form['search_questions'])
+        return render_template('search_failed.html', term=request.form['query'])
 
 
 if __name__ == '__main__':
