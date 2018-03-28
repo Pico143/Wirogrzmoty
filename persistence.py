@@ -16,18 +16,30 @@ def connection_handler(function):
         dict_cur.close()
         connection.close()
         return ret_value
+
     return wrapper
+
+
+@connection_handler
+def search(cursor, search):
+    cursor.execute("""
+                    SELECT * FROM question
+      LEFT JOIN answer ON question.id = answer.question_id
+    WHERE LOWER(question.title) LIKE LOWER('%{0}%') OR LOWER(answer.message) LIKE LOWER('%{0}%');
+    """.format(search['search_questions']))
+    matching_questions = cursor.fetchall()
+    print("MATCHING QUESTIONS: " , matching_questions)
+    return matching_questions
 
 
 def add_row_to_db(row, table, *args):
     ''' Adds a new value into a given table, provided that dictionary is in a proper form
     (which is to be done by logic.py functions)
     Row - python dictionary to be added
-    Table - String with a name of the table to add dictionary values to
-    '''
+    Table - String with a name of the table to add dictionary values to'''
     connection = open_database()
     cursor = connection.cursor()
-    query = "INSERT INTO {0} (".format(table)
+    query = ("INSERT INTO {0} (".format(table))
     query = list(query)
     columns = []
     for key in sorted(row.keys()):
@@ -45,27 +57,6 @@ def add_row_to_db(row, table, *args):
     query = ''.join(query)
     cursor.execute(query)
     connection.close()
-
-
-
-@connection_handler
-def del_row_in_file(filename, fieldnames, row_number, row_id):
-    list_dict = list_of_dict_from_file(filename, fieldnames)
-    new_list = []
-    for item in list_dict:
-        if not str(item[row_id]) == str(row_number):
-            new_list.append(item)
-    with open(filename, 'w') as f:
-        w = csv.DictWriter(f, fieldnames)
-        w.writerows(new_list)
-
-@connection_handler
-def replace_row_in_file(filename, fieldnames, row_number, dict):
-    list_dict = list_of_dict_from_file(filename, fieldnames)
-    list_dict[row_number] = encoding_dict(dict)
-    with open(filename, 'w') as f:
-        w = csv.DictWriter(f, fieldnames)
-        w.writerows(list_dict)
 
 
 def open_database():
@@ -127,12 +118,3 @@ def get_item_by_question_id(cursor, table, _id):
                    """.format(table, _id))
     question = cursor.fetchall()
     return question
-
-
-@connection_handler
-def search(cursor, search):
-    cursor.execute("""
-                    SELECT * FROM question WHERE title LIKE '%{0}%';
-                   """.format(search['search_questions']))
-    answers = cursor.fetchall()
-    return answers

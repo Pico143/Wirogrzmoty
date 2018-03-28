@@ -59,7 +59,7 @@ def sort_list_of_dicts_by_time(dict_list):
 
 def get_list_of_headers(dict_list):
     if dict_list == []:
-        return[]
+        return []
     example_dict = dict_list[0]
     key_list = []
     for key in example_dict.keys():
@@ -75,19 +75,32 @@ def get_answers_in_question(dict_list, id_question):
     return answers_list
 
 
-def vote_up(question_id, filename):
-    questions = persistence.list_of_dict_from_file(filename, fieldnames=util.QUEST_FIELDS)
+def vote_question(question_id, vote):
+    '''
+
+    :param question_id: id of the question (int)
+    :param vote: value of True or False; if false vote down, if true vote up
+    :return: void (just changes the database itself)
+    '''
+
+    questions = persistence.get_all_questions()
     for question in questions:
-        if question['id'] == question_id:
-            question['vote_number'] = int(question['vote_number']) + 1
-            persistence.replace_row_in_file(filename, util.QUEST_FIELDS, int(question_id), question)
+        if int(question['id']) == int(question_id):
+            if vote is True:
+                question['vote_number'] = int(question['vote_number']) + 1
+            elif vote is False:
+                question['vote_number'] = int(question['vote_number']) - 1
+            persistence.update_question_vote(question)
             break
 
 
-def vote_down(question_id, filename):
-    questions = persistence.list_of_dict_from_file(filename, fieldnames=util.QUEST_FIELDS)
-    for question in questions:
-        if question['id'] == question_id:
-            question['vote_number'] = int(question['vote_number']) - 1
-            persistence.replace_row_in_file(filename, util.QUEST_FIELDS, int(question_id), question)
+def vote_answer(answer_id, vote):
+    answers = persistence.get_all_answers()
+    for answer in answers:
+        if int(answer['id']) == int(answer_id):
+            if vote is True:
+                answer['vote_number'] = int(answer['vote_number']) + 1
+            elif vote is False:
+                answer['vote_number'] = int(answer['vote_number']) - 1
+            persistence.update_answer_vote(answer)
             break

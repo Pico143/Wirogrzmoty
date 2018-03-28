@@ -32,8 +32,13 @@
     </form>
 
     <form action="/search" method="post">
-      <textarea id="search" name="search_questions" rows="1" cols="8"></textarea>
+      <input type="text" name="search_questions">
       <button type="submit">Search!</button>
     </form>
 </div>
+{% if search == true %}
+    <form method="get" action="/">
+        <button type="submit">View all questions</button>
+    </form>
+{% endif %}
 </body>

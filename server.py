@@ -15,7 +15,7 @@ def list_questions():
     questions = persistence.get_all_items('question')
     questions = logic.sort_list_of_dicts_by_time(questions)
     labels = logic.get_list_of_headers(questions)
-    return render_template('list_questions.html', questions=questions, labels=labels)
+    return render_template('list_questions.html', questions=questions, labels=labels, search=False)
 
 
 @app.route('/new-question')
@@ -42,14 +42,14 @@ def submit_question():
 
 @app.route('/question/<int:question_id>/new-answer')
 def write_answer(question_id):
-    questions = persistence.list_of_dict_from_file('Question.csv', fieldnames=util.QUEST_FIELDS)
+    questions = persistence.get_all_questions()
     return render_template('post_answer.html', questions=questions, question_id=question_id)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST'])
 def submit_answer(question_id):
     dict = logic.answer_dict(question_id, request.form['answer'])
-    persistence.write_form_to_file('Answer.csv', util.ANS_FIELDS, dict)
+    persistence.add_row_to_db(dict, "answer")
     return redirect('/question/' + str(question_id))
 
 
@@ -66,18 +66,30 @@ def view_question(question_id=None):
     labels = logic.get_list_of_headers(question)
     labels_answer = logic.get_list_of_headers(questions_answer)
     return render_template('display_question.html', question=question, questions_answer=questions_answer,
-                            labels=labels, question_id=question_id, labels_answer=labels_answer)
+                           labels=labels, question_id=question_id, labels_answer=labels_answer)
 
 
-@app.route('/question/<question_id>/vote-up')
-def vote_up(question_id=None):
-    logic.vote_up(question_id, 'Question.csv')
+@app.route('/question/<int:question_id>/vote-up')
+def vote_question_up(question_id=None):
+    logic.vote_question(question_id, True)
     return redirect('/question/' + str(question_id))
 
 
-@app.route('/question/<question_id>/vote-down')
-def vote_down(question_id=None):
-    logic.vote_down(question_id, 'Question.csv')
+@app.route('/question/<int:question_id>/vote-down')
+def vote_question_down(question_id=None):
+    logic.vote_question(question_id, False)
+    return redirect('/question/' + str(question_id))
+
+
+@app.route('/question/<int:question_id>/<int:answer_id>/vote-up')
+def vote_answer_up(question_id=None, answer_id=None):
+    logic.vote_answer(answer_id, True)
+    return redirect('/question/' + str(question_id))
+
+
+@app.route('/question/<int:question_id>/<int:answer_id>/vote-down')
+def vote_answer_down(question_id=None, answer_id=None):
+    logic.vote_answer(answer_id, False)
     return redirect('/question/' + str(question_id))
 
 
@@ -87,9 +99,9 @@ def search():
     if questions:
         questions = logic.sort_list_of_dicts_by_time(questions)
         labels = logic.get_list_of_headers(questions)
-        return render_template('list_questions.html', questions=questions, labels=labels)
+        return render_template('list_questions.html', questions=questions, labels=labels, search=True)
     else:
-        return render_template('search_failed.html', term=request.form['search_questions'] )
+        return render_template('search_failed.html', term=request.form['search_questions'])
 
 
 if __name__ == '__main__':
