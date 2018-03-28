@@ -31,7 +31,6 @@ def search(cursor, query):
     return matching_questions
 
 
-
 def add_row_to_db(row, table, *args):
     ''' Adds a new value into a given table, provided that dictionary is in a proper form
     (which is to be done by logic.py functions)
