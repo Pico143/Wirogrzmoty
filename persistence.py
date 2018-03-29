@@ -33,8 +33,8 @@ def search(cursor, query):
 
 
 def add_row_to_db(row, table):
-    ''' Adds a new row into a given table, provided that dictionary is in a proper form
-    (which is to be done by logic.py functions)
+    ''' Adds a new row into a given table, provided that dictionary is in a form adjusted to the table
+    it's supposed to go to (which is to be done by logic.py functions)
     Row - python dictionary to be added
     Table - String with a name of the table to add dictionary values to'''
     connection = open_database()
@@ -42,32 +42,17 @@ def add_row_to_db(row, table):
     if table == "question":
         query = "INSERT INTO question (id,message,submission_time,title,view_number,vote_number) VALUES (%s, %s, %s, %s, %s, %s)"
     elif table == "answer":
-        query = "INSERT INTO answer (id,message,question_id,submission_time,vote_number) VALUES (%s)"
-    elif table == "comment":
-        query = "INSERT INTO comment (answer_id,id,edited_count,message,question_id,submission_time) VALUES (%s)"
+        query = "INSERT INTO answer (id,message,question_id,submission_time,vote_number) VALUES (%s, %s, %s, %s, %s)"
+    elif table == "comment" and row['answer_id'] == 'null':
+        query = "INSERT INTO comment (answer_id,edited_count,id,message,question_id,submission_time) VALUES (null, %s, %s, %s, %s, %s)"
+        del row['answer_id']
+    else:
+        query = "INSERT INTO comment (answer_id,id,edited_count,message,question_id,submission_time) VALUES (%s, %s, %s, %s, %s, %s)"
     values = []
     for key in sorted(row.keys()):
         values.append(str(row[key]))
-    cursor.execute(query, values)
 
-    '''
-    query = ("INSERT INTO {0} (".format(table))
-    query = list(query)
-    columns = []
-    for key in sorted(row.keys()):
-        columns.append(str(key))
-    columns = ','.join(columns)
-    query.append(columns + ") VALUES (")
-    values = []
-    for key in sorted(row.keys()):
-        if not row[key] == 'null':
-            values.append("\'" + str(row[key]) + "\'")
-        else:
-            values.append(str(row[key]))
-    values = ','.join(values)
-    query.append(values + ")")
-    query = ''.join(query)
-    '''
+    cursor.execute(query, values)
     connection.close()
 
 
@@ -116,7 +101,7 @@ def get_item_by_id(cursor, table, _id):
                     SELECT *
                     FROM {0}
                     WHERE id = {1};
-                   """.format(table, _id))
+                   """.format(table, int(_id)))
     question = cursor.fetchall()
     return question
 

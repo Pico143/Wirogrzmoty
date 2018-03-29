@@ -2,8 +2,6 @@
 It should have functions which can be called from the routing layer,
 and they should call persistence layer functions.'''
 import persistence
-import util
-import os.path
 from operator import itemgetter
 from datetime import datetime
 
@@ -84,7 +82,7 @@ def vote_question(question_id, vote):
     :return: void (just changes the database itself)
     '''
 
-    questions = persistence.get_all_questions()
+    questions = persistence.get_all_items("question")
     for question in questions:
         if int(question['id']) == int(question_id):
             if vote is True:
@@ -96,7 +94,7 @@ def vote_question(question_id, vote):
 
 
 def vote_answer(answer_id, vote):
-    answers = persistence.get_all_answers()
+    answers = persistence.get_all_items("answer")
     for answer in answers:
         if int(answer['id']) == int(answer_id):
             if vote is True:
