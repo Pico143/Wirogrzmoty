@@ -51,7 +51,6 @@ def add_row_to_db(row, table):
     values = []
     for key in sorted(row.keys()):
         values.append(str(row[key]))
-
     cursor.execute(query, values)
     connection.close()
 
