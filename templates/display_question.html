@@ -31,6 +31,7 @@
             <tr>
                 <th>Comments:</th>
                 <th>Submission time:</th>
+                <th>Edited count:</th>
                 <th>Edit:</th>
                 <th>Delete:</th>
             </tr>
@@ -46,6 +47,11 @@
                         </td>
                         <td>
                             {{ submission_time }}
+                        </td>
+                        <td>
+                            {% if comment['edited_count'] %} {{ comment['edited_count'] }}
+                            {% else %} 0
+                            {% endif %}
                         </td>
                         <td>
                             <form action ={{ edit_link }} method='get' name="Edit comment" id="Edit comment" >
