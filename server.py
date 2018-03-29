@@ -26,12 +26,24 @@ def new_question():
 
 
 @app.route('/question/<int:question_id>/new-comment', methods=["GET", "POST"])
-def new_comment(question_id=None):
+def new_question_comment(question_id=None):
     if request.method == "GET":
         question = persistence.get_item_by_id("question", question_id)
         return render_template('add_comment.html', question=question, question_id=question_id)
     if request.method == "POST":
         dict = logic.comment_dict(request.form["comment"], question_id=question_id)
+        persistence.add_row_to_db(dict, "comment")
+        return redirect('/question/' + str(question_id))
+
+
+@app.route('/question/<int:question_id>/answer/<int:answer_id>/new-comment', methods=["GET", "POST"])
+def new_answer_comment(question_id=None, answer_id=None):
+    if request.method == "GET":
+        print("TAK")
+        answer = persistence.get_item_by_id("answer", answer_id)
+        return render_template('add_comment.html', answer=answer, answer_id=answer_id, question_id=question_id)
+    if request.method == "POST":
+        dict = logic.comment_dict(request.form["comment"], answer_id=answer_id, question_id=question_id)
         persistence.add_row_to_db(dict, "comment")
         return redirect('/question/' + str(question_id))
 
@@ -88,11 +100,15 @@ def delete_comment(comment_id=None):
 @app.route('/question/<question_id>')
 def view_question(question_id=None):
     question = persistence.get_item_by_id("question", question_id)
-    questions_answer = persistence.get_item_by_question_id('answer', question_id)
-    question_comment = persistence.get_item_by_question_id('comment', question_id)
+    questions_answer = persistence.get_item_by_foreign_key('answer', question_id, "question_id")
+    question_comment = persistence.get_item_by_foreign_key('comment', question_id, "question_id")
+    answer_ids = logic.get_answer_ids(questions_answer)
+    answer_comment = logic.get_answer_comments(answer_ids)
+    print(answer_comment)
     labels = logic.get_list_of_headers(question)
     labels_answer = logic.get_list_of_headers(questions_answer)
-    labels_comment = logic.get_list_of_headers(question_comment)
+    labels_question_comment = logic.get_list_of_headers(question_comment)
+    labels_answer_comment = logic.get_list_of_headers(answer_comment)
     return render_template('display_question.html',
                            question=question,
                            questions_answer=questions_answer,
@@ -100,7 +116,9 @@ def view_question(question_id=None):
                            question_id=question_id,
                            labels_answer=labels_answer,
                            question_comment=question_comment,
-                           labels_comment=labels_comment)
+                           answer_comment=answer_comment,
+                           labels_question_comment=labels_question_comment,
+                           labels_answer_comment=labels_answer_comment)
 
 
 @app.route('/question/<int:question_id>/vote-up')

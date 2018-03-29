@@ -93,6 +93,18 @@ def vote_question(question_id, vote):
             break
 
 
+def get_answer_ids(question_answer):
+    return [answer["id"] for answer in question_answer]
+
+
+def get_answer_comments(ids):
+    comments = []
+    for _id in ids:
+        if len(persistence.get_item_by_foreign_key("comment", _id, "answer_id")) >= 1:
+            comments.append(persistence.get_item_by_foreign_key("comment", _id, "answer_id")[0])
+    return comments
+
+
 def vote_answer(answer_id, vote):
     answers = persistence.get_all_items("answer")
     for answer in answers:

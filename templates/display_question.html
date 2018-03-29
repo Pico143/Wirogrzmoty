@@ -36,34 +36,37 @@
                 <th>Delete:</th>
             </tr>
                 {% for comment in question_comment %}
-                    {% set comment_id = comment["id"]|int %}
-                    {% set message = comment['message']|string %}
-                    {% set submission_time = comment["submission_time"]|string %}
-                    {% set delete_link = "/comments/" + comment_id|string + "/delete" %}
-                    {% set edit_link = "/comments/" + comment_id|string + "/edit" %}
-                    <tr>
-                        <td>
-                            {{ message }}
-                        </td>
-                        <td>
-                            {{ submission_time }}
-                        </td>
-                        <td>
-                            {% if comment['edited_count'] %} {{ comment['edited_count'] }}
-                            {% else %} 0
-                            {% endif %}
-                        </td>
-                        <td>
-                            <form action ={{ edit_link }} method='get' name="Edit comment" id="Edit comment" >
-                                <input type="submit" value="Edit" id="edit">
-                            </form>
-                        </td>
-                        <td>
-                            <a href={{ delete_link }}>
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
-                        </td>
-                    </tr>
+                    {% set answer_id = comment["answer_id"] %}
+                    {% if answer_id == none %}
+                        {% set comment_id = comment["id"]|int %}
+                        {% set message = comment['message']|string %}
+                        {% set submission_time = comment["submission_time"]|string %}
+                        {% set delete_link = "/comments/" + comment_id|string + "/delete" %}
+                        {% set edit_link = "/comments/" + comment_id|string + "/edit" %}
+                        <tr>
+                            <td>
+                                {{ message }}
+                            </td>
+                            <td>
+                                {{ submission_time }}
+                            </td>
+                            <td>
+                                {% if comment['edited_count'] %} {{ comment['edited_count'] }}
+                                {% else %} 0
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form action ={{ edit_link }} method='get' name="Edit comment" id="Edit comment" >
+                                    <input type="submit" value="Edit" id="edit">
+                                </form>
+                            </td>
+                            <td>
+                                <a href={{ delete_link }}>
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
     </table>
 {% endif %}
@@ -86,8 +89,14 @@
                     {% set answer_id = field['id']|int %}
                     {% set vote_up='/question/' + question_id|string + "/" + answer_id|string + "/vote-up"%}
                     {% set vote_down='/question/' + question_id|string + "/" + answer_id|string + "/vote-down"%}
+                    {% set post_answer_comment_link = '/question/' + question_id|string + "/answer/" + answer_id|string + "/new-comment" %}
                     <td><a href={{ vote_up }}><img alt="Like" src='/static/like.png' height='20'></a></td>
                     <td><a href={{ vote_down }}><img alt="Dislike" src='/static/dislike.png' height='20' width='30'></a></td>
+                    <td>
+                        <form action = {{ post_answer_comment_link }} method='get' name="New answer comment" id="New answer comment" >
+                            <input type="submit" value="Add comment to answer", id="submit_1">
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
     </table>

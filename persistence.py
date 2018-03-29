@@ -88,6 +88,17 @@ def get_all_items(cursor, table):
 
 
 @connection_handler
+def get_item_by_foreign_key(cursor, table, _id, foreign_key):
+    cursor.execute("""
+                    SELECT *
+                    FROM {0}
+                    WHERE {2} = {1};
+                   """.format(table, _id, foreign_key))
+    question = cursor.fetchall()
+    return question
+
+
+@connection_handler
 def delete_item(cursor, table, _id):
     cursor.execute("""
                     DELETE FROM {0}
