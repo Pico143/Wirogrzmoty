@@ -47,7 +47,7 @@ def edit_comment(comment_id=None):
                                 question=question,
                                 question_id=question_id)
     if request.method == "POST":
-        question_comment['message'] = request.form["comment"]
+        question_comment[0]['message'] = request.form["comment"]
         persistence.edit_comment(question_comment)
         return redirect('/question/' + str(question_id))
 

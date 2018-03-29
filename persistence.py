@@ -143,14 +143,24 @@ def update_answer_vote(cursor, row):
                    """.format(row['vote_number'], row['id']))
 
 
-@connection_handler
-def edit_comment(cursor, user_comment):
-    user_comment['edited_count'] = int(user_comment['edited_count']) + 1
-    user_comment['submission_time'] = str(datetime.now().replace(microsecond=0)),
-    query = """UPDATE comment (answer_id,id,edited_count,message,question_id,submission_time)
-    SET (%s, %s, %s, %s, %s, %s) WHERE id = %s"""
+def edit_comment(user_comment):
+    connection = open_database()
+    cursor = connection.cursor()
+    user_comment = user_comment[0]
+    ID = user_comment.pop('id')
+    try:
+        user_comment['edited_count'] = int(user_comment['edited_count']) + 1
+    except TypeError:
+        user_comment['edited_count'] = 1
+    user_comment['submission_time'] = str(datetime.now().replace(microsecond=0))
+    query = """
+              UPDATE comment SET edited_count=%s,message=%s,question_id=%s,submission_time=%s
+              WHERE id = %s"""
     values = []
-    for value in user_comment.values():
-        values.append(value)
-    values.append(user_comment['id'])
+    del user_comment['answer_id']
+    print (user_comment.items())
+    for key in sorted(user_comment.keys()):
+        values.append(str(user_comment[key]))
+    values.append(ID)
     cursor.execute(query, values)
+    connection.close()
