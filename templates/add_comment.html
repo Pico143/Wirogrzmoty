@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Comment</title>
-</head>
-<body>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='beauty.css') }}">
-    <h2>Add Comment</h2>
-    <p>
-    </p>
-    <form method="POST">
-    <label for="message" id="your_comment">Your comment</label><br>
-    <textarea minlength="10" rows="10" cols="50" name="comment" id="comment" required></textarea>
-    <p>
-    </p>
-    <input type="submit" value="Submit Comment" id="submit">
+{% extends 'base.html' %}
+
+        
+{% block title %}ASK MATE{% endblock %}
+
+{% block page_content %}
+    <p>Question title: {{ question[0]['title'] }}</p><br>
+    <p>Question: {{ question[0]['message'] }}</p>
+    <form method="post">
+            <label for="comment" id="your_comment">Your comment:</label>
+            <br/>
+            <textarea id="comment" name="comment" rows="5" cols="80" minlength="10" required></textarea>
+            <br/>
+            <button type="submit", id="submit_add_comment">Submit Comment</button>
     </form>
-</body>
-</html>
+
+{% endblock %}
