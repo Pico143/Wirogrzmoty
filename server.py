@@ -53,10 +53,10 @@ def edit_comment(comment_id=None):
     question_id = question_comment[0]['question_id']
     question = persistence.get_item_by_id("question", question_id)
     if request.method == "GET":
-        return render_template ('add_comment.html',
-                                question_comment = question_comment,
-                                question=question,
-                                question_id=question_id)
+        return render_template('add_comment.html',
+                               question_comment=question_comment,
+                               question=question,
+                               question_id=question_id)
     if request.method == "POST":
         question_comment[0]['message'] = request.form["comment"]
         persistence.edit_comment(question_comment)
