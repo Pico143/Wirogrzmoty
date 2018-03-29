@@ -27,7 +27,7 @@ def search(cursor, query):
                     SELECT * FROM question
       LEFT JOIN answer ON question.id = answer.question_id
     WHERE LOWER(question.title) LIKE LOWER('%{0}%') OR LOWER(answer.message) LIKE LOWER('%{0}%');
-    """.format(query['query']))
+    """.format(query['query'].replace("'", "''")))
     matching_questions = cursor.fetchall()
     return matching_questions
 
