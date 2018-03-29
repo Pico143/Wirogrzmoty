@@ -39,7 +39,6 @@ def new_question_comment(question_id=None):
 @app.route('/question/<int:question_id>/answer/<int:answer_id>/new-comment', methods=["GET", "POST"])
 def new_answer_comment(question_id=None, answer_id=None):
     if request.method == "GET":
-        print("TAK")
         answer = persistence.get_item_by_id("answer", answer_id)
         return render_template('add_comment.html', answer=answer, answer_id=answer_id, question_id=question_id)
     if request.method == "POST":
@@ -104,7 +103,6 @@ def view_question(question_id=None):
     question_comment = persistence.get_item_by_foreign_key('comment', question_id, "question_id")
     answer_ids = logic.get_answer_ids(questions_answer)
     answer_comment = logic.get_answer_comments(answer_ids)
-    print(answer_comment)
     labels = logic.get_list_of_headers(question)
     labels_answer = logic.get_list_of_headers(questions_answer)
     labels_question_comment = logic.get_list_of_headers(question_comment)

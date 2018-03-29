@@ -47,7 +47,7 @@ def add_row_to_db(row, table):
         query = "INSERT INTO comment (answer_id,edited_count,id,message,question_id,submission_time) VALUES (null, %s, %s, %s, %s, %s)"
         del row['answer_id']
     else:
-        query = "INSERT INTO comment (answer_id,id,edited_count,message,question_id,submission_time) VALUES (%s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO comment (answer_id,edited_count,id,message,question_id,submission_time) VALUES (%s, %s, %s, %s, %s, %s)"
     values = []
     for key in sorted(row.keys()):
         values.append(str(row[key]))
@@ -169,7 +169,6 @@ def edit_comment(user_comment):
               WHERE id = %s"""
     values = []
     del user_comment['answer_id']
-    print (user_comment.items())
     for key in sorted(user_comment.keys()):
         values.append(str(user_comment[key]))
     values.append(ID)
