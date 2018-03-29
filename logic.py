@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 def get_id(list_dict):
-    highest = 0
+    highest = -1
     for row in list_dict:
         if int(row['id']) > highest:
             highest = int(row['id'])
