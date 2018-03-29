@@ -99,10 +99,16 @@ def get_answer_ids(question_answer):
 
 def get_answer_comments(ids):
     comments = []
+    arr = []
     for _id in ids:
         if len(persistence.get_item_by_foreign_key("comment", _id, "answer_id")) >= 1:
-            comments.append(persistence.get_item_by_foreign_key("comment", _id, "answer_id")[0])
-    return comments
+            id_comments = persistence.get_item_by_foreign_key("comment", _id, "answer_id")
+            comments.append(id_comments)
+    for items in comments:
+        for item in items:
+            arr.append(item)
+
+    return arr
 
 
 def vote_answer(answer_id, vote):

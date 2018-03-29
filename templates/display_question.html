@@ -74,37 +74,48 @@
 {% if labels_answer == [] %}
     <p>This question has no answers yet. Be the first Mate!</p>
 {% else %}
-    <table class="table">
+    {% for field in questions_answer %}
+        <table class="table">
         <tr>
             {% for item in labels_answer|sort %}
                 <th>{{ item }}</th>
             {% endfor %}
         </tr>
-            {% for field in questions_answer %}
-                <tr>
-                    {% for key, value in field.items()|sort %}
-                        <td> {{ value }} </td>
-                    {% endfor %}
-                    {% set question_id = question_id|int %}
-                    {% set answer_id = field['id']|int %}
-                    {% set vote_up='/question/' + question_id|string + "/" + answer_id|string + "/vote-up"%}
-                    {% set vote_down='/question/' + question_id|string + "/" + answer_id|string + "/vote-down"%}
-                    {% set post_answer_comment_link = '/question/' + question_id|string + "/answer/" + answer_id|string + "/new-comment" %}
-                    <td><a href={{ vote_up }}><img alt="Like" src='/static/like.png' height='20'></a></td>
-                    <td><a href={{ vote_down }}><img alt="Dislike" src='/static/dislike.png' height='20' width='30'></a></td>
-                    <td>
-                        <form action = {{ post_answer_comment_link }} method='get' name="New answer comment" id="New answer comment" >
-                            <input type="submit" value="Add comment to answer", id="submit_1">
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-
-                    </td>
-                </tr>
+        <tr>
+            {% for key, value in field.items()|sort %}
+                <td> {{ value }} </td>
             {% endfor %}
-    </table>
+            {% set question_id = question_id|int %}
+            {% set answer_id = field['id']|int %}
+            {% set vote_up='/question/' + question_id|string + "/" + answer_id|string + "/vote-up"%}
+            {% set vote_down='/question/' + question_id|string + "/" + answer_id|string + "/vote-down"%}
+            {% set post_answer_comment_link = '/question/' + question_id|string + "/answer/" + answer_id|string + "/new-comment" %}
+            <td><a href={{ vote_up }}><img alt="Like" src='/static/like.png' height='20'></a></td>
+            <td><a href={{ vote_down }}><img alt="Dislike" src='/static/dislike.png' height='20' width='30'></a></td>
+            <td>
+                <form action = {{ post_answer_comment_link }} method='get' name="New answer comment" id="New answer comment" >
+                    <input type="submit" value="Add comment to answer", id="submit_1">
+                </form>
+            </td>
+        </tr>
+        {% for comment in answer_comment %}
+            {% if comment['answer_id']|int == answer_id %}
+                <tr>
+                    <th>Comment:</th>
+                    <th>Submission time:</th>
+                </tr>
+                <tr>
+                    <td>
+                        {{ comment['message'] }}
+                    </td>
+                    <td>
+                        {{ comment['submission_time'] }}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </table>
+    {% endfor %}
 {% endif %}
 <div>
     {% set new_answer_link = '/question/' + question_id|string + '/new-answer' %}
