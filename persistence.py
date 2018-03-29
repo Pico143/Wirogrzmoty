@@ -169,7 +169,6 @@ def edit_comment(user_comment):
               WHERE id = %s"""
     values = []
     del user_comment['answer_id']
-    print (user_comment.items())
     for key in sorted(user_comment.keys()):
         values.append(str(user_comment[key]))
     values.append(ID)
