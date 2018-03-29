@@ -107,7 +107,6 @@ def view_question(question_id=None):
     labels_answer = logic.get_list_of_headers(questions_answer)
     labels_question_comment = logic.get_list_of_headers(question_comment)
     labels_answer_comment = logic.get_list_of_headers(answer_comment)
-    print(answer_comment)
     return render_template('display_question.html',
                            question=question,
                            questions_answer=questions_answer,

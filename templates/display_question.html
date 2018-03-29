@@ -24,7 +24,7 @@
     </tr>
 </table>
 <br>
-{% if labels_comment == [] %}
+{% if labels_question_comment == [] %}
     <p>This question has no comments yet. Be the first Chap!</p>
 {% else %}
     <table class="table">
@@ -99,7 +99,10 @@
             </td>
         </tr>
         {% for comment in answer_comment %}
-            {% if comment['answer_id']|int == answer_id %}
+            {% set _id = comment['id']|int %}
+            {% set comment_id = comment['answer_id']|int %}
+            {% if comment_id == answer_id %}
+                {% set delete_link = "/comments/" + _id|string + "/delete" %}
                 <tr>
                     <th>Comment:</th>
                     <th>Submission time:</th>
@@ -110,6 +113,11 @@
                     </td>
                     <td>
                         {{ comment['submission_time'] }}
+                    </td>
+                    <td>
+                        <a href={{ delete_link }}>
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
                     </td>
                 </tr>
             {% endif %}
