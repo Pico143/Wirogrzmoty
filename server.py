@@ -29,7 +29,7 @@ def new_question():
 def new_comment(question_id=None):
     if request.method == "GET":
         question = persistence.get_item_by_id("question", question_id)
-        return render_template('add_comment.html', question=question)
+        return render_template('add_comment.html', question=question, question_id=question_id)
     if request.method == "POST":
         dict = logic.comment_dict(request.form["comment"], question_id=question_id)
         persistence.add_row_to_db(dict, "comment")
@@ -46,7 +46,7 @@ def submit_question():
 @app.route('/question/<int:question_id>/new-answer')
 def write_answer(question_id=None):
     questions = persistence.get_item_by_id("question", question_id)
-    return render_template('post_answer.html', questions=questions)
+    return render_template('post_answer.html', questions=questions, question_id=question_id)
 
 
 @app.route('/question/<int:question_id>/new-answer', methods=['POST'])

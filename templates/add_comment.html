@@ -13,5 +13,8 @@
             <br/>
             <button type="submit", id="submit_add_comment">Submit Comment</button>
     </form>
-
+    {% set link="/question/" + question_id|string %}
+    <form action = {{ link }} method='get' name="Back to question" id="Back to question">
+        <button type="submit" id="Back to question">Back to question</button>
+    </form>
 {% endblock %}
