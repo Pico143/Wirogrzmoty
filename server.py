@@ -26,9 +26,10 @@ def new_question():
 
 
 @app.route('/question/<int:question_id>/new-comment', methods=["GET", "POST"])
-def new_comment(question_id):
+def new_comment(question_id=None):
     if request.method == "GET":
-        return render_template('add_comment.html')
+        question = persistence.get_item_by_id("question", question_id)
+        return render_template('add_comment.html', question=question)
     if request.method == "POST":
         dict = logic.comment_dict(request.form["comment"], question_id=question_id)
         persistence.add_row_to_db(dict, "comment")
@@ -55,7 +56,7 @@ def submit_answer(question_id):
     return redirect('/question/' + str(question_id))
 
 
-@app.route('/delete/<int:question_id>')
+@app.route('/question/<int:question_id>/delete')
 def delete_question(question_id=None):
     persistence.delete_item('question', question_id)
     return redirect('/')

@@ -12,7 +12,7 @@
         </tr>
             {% for field in questions %}
             {% set link="/question/" + field['id']|string %}
-            {% set link2="/delete/" + field['id']|string %}
+            {% set link2="/question/" + field['id']|string + "/delete" %}
             {% set vote_up='/question/' + field['id']|string + "/vote-up"%}
             {% set vote_down='/question/' + field['id']|string + "/vote-down"%}
             <tr>
