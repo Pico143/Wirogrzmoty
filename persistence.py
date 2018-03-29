@@ -5,6 +5,7 @@ So in the future, we only need to change in this layer.'''
 import psycopg2
 import psycopg2.extras
 from config import config
+from datetime import datetime
 
 
 def connection_handler(function):
@@ -29,7 +30,6 @@ def search(cursor, query):
     """.format(query['query']))
     matching_questions = cursor.fetchall()
     return matching_questions
-
 
 
 def add_row_to_db(row, table):
@@ -141,3 +141,16 @@ def update_answer_vote(cursor, row):
     cursor.execute("""
                     UPDATE answer SET vote_number = {0} WHERE id = {1};
                    """.format(row['vote_number'], row['id']))
+
+
+@connection_handler
+def edit_comment(cursor, user_comment):
+    user_comment['edited_count'] = int(user_comment['edited_count']) + 1
+    user_comment['submission_time'] = str(datetime.now().replace(microsecond=0)),
+    query = """UPDATE comment (answer_id,id,edited_count,message,question_id,submission_time) 
+    SET (%s, %s, %s, %s, %s, %s) WHERE id = %s"""
+    values = []
+    for value in user_comment.values():
+        values.append(value)
+    values.append(user_comment['id'])
+    cursor.execute(query, values)
