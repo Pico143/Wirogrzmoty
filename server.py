@@ -36,6 +36,22 @@ def new_comment(question_id=None):
         return redirect('/question/' + str(question_id))
 
 
+@app.route('/comments/<comment_id>/edit', methods=["GET", "POST"])
+def edit_comment(comment_id=None):
+    question_comment = persistence.get_item_by_id("comment", comment_id)
+    question_id = question_comment[0]['question_id']
+    question = persistence.get_item_by_id("question", question_id)
+    if request.method == "GET":
+        return render_template ('add_comment.html',
+                                question_comment = question_comment,
+                                question=question,
+                                question_id=question_id)
+    if request.method == "POST":
+        question_comment['message'] = request.form["comment"]
+        persistence.edit_comment(question_comment)
+        return redirect('/question/' + str(question_id))
+
+
 @app.route('/new-question', methods=["POST"])
 def submit_question():
     dict = logic.question_dict(request.form["title"], request.form["question"])
@@ -62,7 +78,7 @@ def delete_question(question_id=None):
     return redirect('/')
 
 
-@app.route('/comment/<int:comment_id>/delete')
+@app.route('/comments/<int:comment_id>/delete')
 def delete_comment(comment_id=None):
     question_id = persistence.get_item_by_id('comment', comment_id)[0]["question_id"]
     persistence.delete_item('comment', comment_id)

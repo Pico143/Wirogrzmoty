@@ -31,18 +31,26 @@
             <tr>
                 <th>Comments:</th>
                 <th>Submission time:</th>
+                <th>Edit:</th>
+                <th>Delete:</th>
             </tr>
                 {% for comment in question_comment %}
                     {% set comment_id = comment["id"]|int %}
                     {% set message = comment['message']|string %}
                     {% set submission_time = comment["submission_time"]|string %}
-                    {% set delete_link = "/comment/" + comment_id|string + "/delete" %}
+                    {% set delete_link = "/comments/" + comment_id|string + "/delete" %}
+                    {% set edit_link = "/comments/" + comment_id|string + "/edit" %}
                     <tr>
                         <td>
                             {{ message }}
                         </td>
                         <td>
                             {{ submission_time }}
+                        </td>
+                        <td>
+                            <form action ={{ edit_link }} method='get' name="Edit comment" id="Edit comment" >
+                                <input type="submit" value="Edit" id="edit">
+                            </form>
                         </td>
                         <td>
                             <a href={{ delete_link }}>
