@@ -32,12 +32,21 @@
                 <th>Comments:</th>
             </tr>
                 {% for comment in question_comment %}
+                    {% set comment_id = comment["id"]|int %}
+                    {% set message = comment['message']|string %}
+                    {% set submission_time = comment["submission_time"]|string %}
+                    {% set delete_link = "/comment/" + comment_id|string + "/delete" %}
                     <tr>
                         <td>
-                            {{ comment['message'] }}
+                            {{ message }}
                         </td>
                         <td>
-                            {{ comment['submission_time'] }}
+                            {{ submission_time }}
+                        </td>
+                        <td>
+                            <a href={{ delete_link }}>
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

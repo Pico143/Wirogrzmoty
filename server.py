@@ -62,6 +62,13 @@ def delete_question(question_id=None):
     return redirect('/')
 
 
+@app.route('/comment/<int:comment_id>/delete')
+def delete_comment(comment_id=None):
+    question_id = persistence.get_item_by_id('comment', comment_id)[0]["question_id"]
+    persistence.delete_item('comment', comment_id)
+    return redirect('/question/' + str(question_id))
+
+
 @app.route('/question/<question_id>')
 def view_question(question_id=None):
     question = persistence.get_item_by_id("question", question_id)
