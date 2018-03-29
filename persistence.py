@@ -24,8 +24,8 @@ def connection_handler(function):
 @connection_handler
 def search(cursor, query):
     cursor.execute("""
-                    SELECT * FROM question
-      LEFT JOIN answer ON question.id = answer.question_id
+                    SELECT question.view_number, question.vote_number, question.id, question.submission_time, question.title, question.message FROM question
+      LEFT JOIN answer ON answer.question_id = question.id
     WHERE LOWER(question.title) LIKE LOWER('%{0}%') OR LOWER(answer.message) LIKE LOWER('%{0}%');
     """.format(query['query'].replace("'", "''")))
     matching_questions = cursor.fetchall()
@@ -147,7 +147,7 @@ def update_answer_vote(cursor, row):
 def edit_comment(cursor, user_comment):
     user_comment['edited_count'] = int(user_comment['edited_count']) + 1
     user_comment['submission_time'] = str(datetime.now().replace(microsecond=0)),
-    query = """UPDATE comment (answer_id,id,edited_count,message,question_id,submission_time) 
+    query = """UPDATE comment (answer_id,id,edited_count,message,question_id,submission_time)
     SET (%s, %s, %s, %s, %s, %s) WHERE id = %s"""
     values = []
     for value in user_comment.values():
